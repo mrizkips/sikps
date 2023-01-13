@@ -109,11 +109,9 @@ return [
     'preloader' => [
         'enabled' => false,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'resources/images/solmitad.png',
             'alt' => 'AdminLTE Preloader Image',
             'effect' => 'animation__shake',
-            'width' => 60,
-            'height' => 60,
         ],
     ],
 
@@ -310,13 +308,13 @@ return [
         ],
         [
             'header'    => 'AKADEMIK',
-            'can'       => ['view-akademik'],
+            'can'       => ['view-akademik', 'view-users'],
         ],
         [
             'text'      => 'Pengguna',
             'route'     => 'users.index',
             'icon'      => 'fas fa-fw fa-users',
-            'can'       => ['view-users', 'view-akademik'],
+            'can'       => ['view-users'],
         ],
         [
             'text'      => 'Jadwal Pendaftaran',
@@ -325,7 +323,7 @@ return [
             'can'       => ['view-akademik'],
         ],
         [
-            'header'    => 'KP & SKRIPSI',
+            'header'    => 'PROPOSAL & PENGAJUAN',
             'can'       => ['view-proposal', 'view-pengajuan'],
         ],
         [

@@ -38,25 +38,6 @@ class PengajuanPolicy
     }
 
     /**
-     * Determine whether the user can create models.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function create(User $user)
-    {
-        if ($user->hasRole('Mahasiswa')) {
-            foreach (Pengajuan::where('mahasiswa_id', $user->mahasiswa->id) as $pengajuan) {
-                if (!$pengajuan->reviewed()) {
-                    return false;
-                }
-            }
-        }
-
-        return $user->can('create pengajuan');
-    }
-
-    /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
@@ -65,6 +46,12 @@ class PengajuanPolicy
      */
     public function delete(User $user, Pengajuan $pengajuan)
     {
+        foreach ($pengajuan->persetujuan as $persetujuan) {
+            if ($persetujuan->status != 0) {
+                return false;
+            }
+        }
+
         return $user->can('delete pengajuan') && $user->mahasiswa->id === $pengajuan->mahasiswa_id;
     }
 
@@ -78,7 +65,7 @@ class PengajuanPolicy
     public function accept(User $user, Pengajuan $pengajuan)
     {
         foreach ($pengajuan->persetujuan as $persetujuan) {
-            if ($user->hasRole($persetujuan->role_name) && $persetujuan->status == null) {
+            if ($user->hasRole($persetujuan->role_name) && $persetujuan->status == 0) {
                 return $user->can('accept pengajuan') && !$pengajuan->reviewed();
             }
         }
@@ -96,7 +83,7 @@ class PengajuanPolicy
     public function reject(User $user, Pengajuan $pengajuan)
     {
         foreach ($pengajuan->persetujuan as $persetujuan) {
-            if ($user->hasRole($persetujuan->role_name) && $persetujuan->status == null) {
+            if ($user->hasRole($persetujuan->role_name) && $persetujuan->status == 0) {
                 return $user->can('reject pengajuan') && !$pengajuan->reviewed();
             }
         }
@@ -113,7 +100,7 @@ class PengajuanPolicy
      */
     public function pay(User $user, Pengajuan $pengajuan)
     {
-        if ($user->hasRole('Keuangan') && $pengajuan->status == 'Belum bayar') {
+        if ($user->hasRole('Keuangan') && $pengajuan->status == 3) {
             return $user->can('accept pengajuan');
         }
 
@@ -129,6 +116,6 @@ class PengajuanPolicy
      */
     public function kpSkripsi(User $user, Pengajuan $pengajuan)
     {
-        return $user->can('create pengajuan') && $pengajuan->status == 'Diterima';
+        return $user->can('create pengajuan') && $pengajuan->status == 1;
     }
 }

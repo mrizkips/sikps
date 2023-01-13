@@ -43,13 +43,15 @@ class ProposalRequest extends FormRequest
 
         switch ($this->method()) {
             case 'POST':
-                $rules['file_proposal'] = ['required', 'file', 'mimes:pdf', 'max:5120'];
+                $rules = array_merge($rules, [
+                    'file_proposal' => ['required', 'file', 'mimes:pdf', 'max:5120']
+                ]);
                 return $rules;
 
             case 'PUT':
-                if ($this->hasFile('file_proposal')) {
-                    $rules['file_proposal'] = ['required', 'file', 'mimes:pdf', 'max:5120'];
-                }
+                $rules = array_merge($rules, [
+                    'file_proposal' => ['nullable', 'file', 'mimes:pdf', 'max:5120']
+                ]);
                 return $rules;
 
             default:

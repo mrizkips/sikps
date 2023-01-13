@@ -36,26 +36,17 @@ class Proposal extends Model
         return '/proposal/' . $this->id . $url;
     }
 
-    /**
-     * Cast attribute of jenis
-     *
-     * @return Attribute
-     */
-    protected function jenis(): Attribute
+    public function getJenis()
     {
-        return Attribute::make(
-            get: function ($jenis) {
-                if ($jenis == 1) {
-                    return 'Kerja Praktek';
-                }
-                else if ($jenis == 2) {
-                    return 'Skripsi';
-                }
-                else {
-                    return $jenis;
-                }
-            }
-        );
+        if ($this->jenis == 1) {
+            return 'Kerja Praktek';
+        }
+        else if ($this->jenis == 2) {
+            return 'Skripsi';
+        }
+        else {
+            return $this->jenis;
+        }
     }
 
     /**
@@ -90,7 +81,7 @@ class Proposal extends Model
         $jadwalPendaftaran = JadwalPendaftaran::find($jadwalPendaftaranId);
 
         $data = [
-            'jenis' => $jadwalPendaftaran->jenis === 'Proposal' ? '1' : ($jadwalPendaftaran->jenis === 'Pra-sidang' ? '2' : '3'),
+            'jenis' => $jadwalPendaftaran->jenis,
             'mahasiswa_id' => $mahasiswa->id ?? auth()->user()->mahasiswa->id,
             'tahun_akademik_id' => $jadwalPendaftaran->tahun_akademik_id,
             'jadwal_pendaftaran_id' => $jadwalPendaftaranId

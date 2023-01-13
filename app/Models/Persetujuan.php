@@ -24,22 +24,30 @@ class Persetujuan extends Model
      */
     protected $guarded = [];
 
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'status' => '0',
+    ];
 
-    public function status(): Attribute
+
+    public function getStatus()
     {
-        return Attribute::make(
-            get: function ($status) {
-                if ($status == 1) {
-                    return 'Diterima';
-                }
-                else if ($status == 2) {
-                    return 'Ditolak';
-                }
-                else {
-                    return null;
-                }
-            }
-        );
+        if ($this->status == 0) {
+            return 'Menunggu';
+        }
+        else if ($this->status == 1) {
+            return 'Diterima';
+        }
+        else if ($this->status == 2) {
+            return 'Ditolak';
+        }
+        else {
+            return $this->status;
+        }
     }
 
     /**
@@ -67,11 +75,12 @@ class Persetujuan extends Model
      *
      * @return bool
      */
-    public function accept(User $user = null)
+    public function accept(User $user = null, $catatan = null)
     {
         return $this->update([
             'status' => '1',
             'user_id' => $user->id ?? auth()->user()->id,
+            'catatan' => $catatan,
         ]);
     }
 
@@ -80,11 +89,12 @@ class Persetujuan extends Model
      *
      * @return bool
      */
-    public function reject(User $user = null)
+    public function reject(User $user = null, $catatan = null)
     {
         return $this->update([
             'status' => '2',
             'user_id' => $user->id ?? auth()->user()->id,
+            'catatan' => $catatan,
         ]);
     }
 }

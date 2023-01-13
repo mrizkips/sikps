@@ -24,7 +24,7 @@
     id="judul"
     name="judul"
     label="Judul*"
-    value="{{ old('judul', $jadwal_pendaftaran->judul ?? '') }}"
+    value="{!! old('judul', $jadwal_pendaftaran->judul ?? '') !!}"
     />
 
 <div class="form-group">

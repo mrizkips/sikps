@@ -41,6 +41,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('jadwal_pendaftaran', JadwalPendaftaranController::class)->except('show');
 
+    Route::get('/proposal/{proposal}/download', [ProposalController::class, 'download'])->name('proposal.download');
+    Route::get('/proposal/{proposal}/send', [ProposalController::class, 'send'])->name('proposal.send');
     Route::resource('proposal', ProposalController::class);
 
     Route::post('/pengajuan/{pengajuan}/accept', [PengajuanController::class, 'accept'])->name('pengajuan.accept');

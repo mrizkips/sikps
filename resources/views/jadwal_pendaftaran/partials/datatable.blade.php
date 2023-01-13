@@ -1,9 +1,9 @@
 @php
 $heads = [
-    'No',
-    'Judul',
+    ['label' => 'No', 'width' => 1],
+    ['label' => 'Judul', 'width' => 50],
     'Jenis',
-    'Periode',
+    ['label' => 'Periode', 'width' => 25],
     'Semester',
     'Tahun Akademik',
     ['label' => 'Aksi', 'no-export' => true, 'width' => 5],
@@ -22,8 +22,8 @@ $config = [
             'semester' => $value->getSemester(),
             'tahun_akademik' => $value->tahunAkademik->nama,
             'actions' =>
-                str($canUpdate ? '<nobr>' . view('partials.edit_button', ['route' => route('jadwal_pendaftaran.edit', $value)]) . '</nobr>' : '') .
-                str($canDelete ? '<nobr>' . view('partials.delete_button', ['route' => route('jadwal_pendaftaran.destroy', $value)]) . '</nobr>' : ''),
+                str($canUpdate ? '<nobr>' . view('partials.buttons.edit', ['route' => route('jadwal_pendaftaran.edit', $value)]) . '</nobr>' : '') .
+                str($canDelete ? '<nobr>' . view('partials.buttons.delete', ['route' => route('jadwal_pendaftaran.destroy', $value)]) . '</nobr>' : ''),
         ];
     }),
     'order' => [[0, 'asc']],

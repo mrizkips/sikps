@@ -19,11 +19,11 @@ $config = [
             'info' => str(view('user.partials.info_view', ['user' => $value])),
             'peran' => $value->getRoleNames(),
             'actions' =>
-                str($canView ? '<nobr>' . view('partials.show_button', ['route' => route('users.show', $value)]) . '</nobr>' : '') .
-                str($canUpdate ? '<nobr>' . view('partials.edit_button', [
+                str($canView ? '<nobr>' . view('partials.buttons.show', ['route' => route('users.show', $value)]) . '</nobr>' : '') .
+                str($canUpdate ? '<nobr>' . view('partials.buttons.edit', [
                     'route' => $value->id === auth()->user()->id ? route('profile.edit') : route('users.edit', $value)
                 ]) . '</nobr>' : '') .
-                str($canDelete ? '<nobr>' . view('partials.delete_button', ['route' => route('users.destroy', $value)]) . '</nobr>' : ''),
+                str($canDelete ? '<nobr>' . view('partials.buttons.delete', ['route' => route('users.destroy', $value)]) . '</nobr>' : ''),
         ];
     }),
     'order' => [[0, 'asc']],

@@ -11,12 +11,12 @@ class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
 
-    // public function test_halaman_login_bisa_di_render()
-    // {
-    //     $response = $this->get('/login');
+    public function test_halaman_login_bisa_di_render()
+    {
+        $response = $this->get('/login');
 
-    //     $response->assertStatus(200);
-    // }
+        $response->assertStatus(200);
+    }
 
     public function test_pengguna_bisa_login()
     {

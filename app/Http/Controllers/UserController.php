@@ -35,7 +35,7 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $userData = $request->safe()->only(['nama', 'username', 'jk', 'email', 'no_hp']);
-        $userData['password'] = $userData['username'];
+        $userData['password'] = $request->generateDefaultPassword();
 
         $user = User::create($userData);
 

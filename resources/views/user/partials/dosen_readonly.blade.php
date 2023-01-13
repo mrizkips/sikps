@@ -1,18 +1,16 @@
-<div class="mb-3 row">
-    <label for="kd_dosen" class="col-sm-2 col-form-label">Kode Dosen</label>
-    <div class="col-sm-10">
-        <p id="kd_dosen" class="form-control-plaintext">{{ $dosen->kd_dosen }}</p>
-    </div>
-</div>
-<div class="mb-3 row">
-    <label for="nidn" class="col-sm-2 col-form-label">NIDN</label>
-    <div class="col-sm-10">
-        <p id="nidn" class="form-control-plaintext">{{ $dosen->nidn }}</p>
-    </div>
-</div>
-<div class="mb-3 row">
-    <label for="inisial" class="col-sm-2 col-form-label">Inisial</label>
-    <div class="col-sm-10">
-        <p id="inisial" class="form-control-plaintext">{{ $dosen->inisial }}</p>
-    </div>
-</div>
+<table class="table">
+    <tbody>
+        <tr>
+            <th>Kode Dosen</th>
+            <td>{{ $dosen->kd_dosen }}</td>
+        </tr>
+        <tr>
+            <th>NIDN</th>
+            <td>{{ $dosen->nidn }}</td>
+        </tr>
+        <tr>
+            <th>Inisial</th>
+            <td>{{ $dosen->inisial }}</td>
+        </tr>
+    </tbody>
+</table>

@@ -21,6 +21,7 @@ class AkademikPermissionSeeder extends Seeder
         $prodi = Role::firstOrCreate(['name' => 'Prodi']);
         $keuangan = Role::firstOrCreate(['name' => 'Keuangan']);
         $dosen = Role::firstOrCreate(['name' => 'Dosen']);
+        $mahasiswa = Role::firstOrCreate(['name' => 'Mahasiswa']);
 
         $createAkademikPermission = Permission::findOrCreate('create akademik');
         $updateAkademikPermission = Permission::findOrCreate('update akademik');
@@ -50,6 +51,10 @@ class AkademikPermissionSeeder extends Seeder
         ]);
 
         $dosen->givePermissionTo([
+            $viewAnyAkademikPermission
+        ]);
+
+        $mahasiswa->givePermissionTo([
             $viewAnyAkademikPermission
         ]);
     }

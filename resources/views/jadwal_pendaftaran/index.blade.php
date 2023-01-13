@@ -10,7 +10,7 @@
     <p>Mengelola data jadwal pendaftaran.</p>
 
     <div class="row">
-        <div class="col-lg-5">
+        <div class="col-lg-8">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span class="mr-auto">Data tahun akademik</span>
@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-7">
+        <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span class="mr-auto">Data jadwal pendaftaran</span>

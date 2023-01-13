@@ -36,6 +36,7 @@ class UserCrudTest extends TestCase
     /** @test */
     public function bisa_menambahkan_user()
     {
+        $this->withoutExceptionHandling();
         $staff = User::create([
             'nama' => 'staff',
             'username' => 'staff',

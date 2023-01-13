@@ -1,6 +1,6 @@
 @php
 $heads = [
-    'No',
+    ['label' => 'No', 'width' => 1],
     'Nama',
     ['label' => 'Aksi', 'no-export' => true, 'width' => 5],
 ];
@@ -13,7 +13,7 @@ $config = [
             'no' => $i + 1,
             'nama' => $value->nama,
             'actions' =>
-                $canDelete ? '<nobr>' . view('partials.delete_button', ['route' => route('tahun_akademik.destroy', $value)]) . '</nobr>' : '',
+                $canDelete ? '<nobr>' . view('partials.buttons.delete', ['route' => route('tahun_akademik.destroy', $value)]) . '</nobr>' : '',
         ];
     }),
     'order' => [[0, 'asc']],

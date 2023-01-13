@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Pengajuan;
+use App\Models\Proposal;
 use App\Rules\JadwalPendaftaranActive;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -15,7 +15,7 @@ class PengajuanRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('create', Pengajuan::class);
+        return $this->user()->can('send', Proposal::find($this->input('proposal_id')));
     }
 
     /**
@@ -27,7 +27,7 @@ class PengajuanRequest extends FormRequest
     {
         return [
             'proposal_id' => ['required', 'exists:proposal,id'],
-            'jadwal_pendaftaran_id' => ['required', 'exists:jadwal_pendaftaran,id', new JadwalPendaftaranActive]
+            'jadwal_pendaftaran_id' => ['required', 'exists:jadwal_pendaftaran,id', new JadwalPendaftaranActive],
         ];
     }
 

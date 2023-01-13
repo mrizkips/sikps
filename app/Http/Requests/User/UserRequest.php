@@ -125,4 +125,9 @@ class UserRequest extends FormRequest
     {
         return collect($this->input('roles'))->contains('Dosen');
     }
+
+    public function generateDefaultPassword()
+    {
+        return $this->input('username') . '@sikps';
+    }
 }

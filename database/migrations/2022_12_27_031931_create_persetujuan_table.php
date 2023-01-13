@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('persetujuan', function (Blueprint $table) {
             $table->id();
-            $table->enum('status', [1, 2])->comment('1 => Diterima, 2 => Ditolak')->nullable();
+            $table->enum('status', [0, 1, 2])->comment('0 => Menunggu, 1 => Diterima, 2 => Ditolak')->default(0);
             $table->text('catatan')->nullable();
             $table->timestamps();
             $table->foreignId('user_id')->nullable()->constrained();

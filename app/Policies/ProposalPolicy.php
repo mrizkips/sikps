@@ -57,6 +57,10 @@ class ProposalPolicy
      */
     public function update(User $user, Proposal $proposal)
     {
+        if ($proposal->pengajuan->isNotEmpty()) {
+            return false;
+        }
+
         return $user->can('update proposal') && $proposal->mahasiswa->id === $user->mahasiswa->id;
     }
 
@@ -69,6 +73,25 @@ class ProposalPolicy
      */
     public function delete(User $user, Proposal $proposal)
     {
+        if ($proposal->pengajuan->isNotEmpty()) {
+            return false;
+        }
+
         return $user->can('delete proposal') && $proposal->mahasiswa->id === $user->mahasiswa->id;
+    }
+
+    /**
+     * Determine whether the user can create models.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function send(User $user, Proposal $proposal)
+    {
+        if ($proposal->pengajuan->isNotEmpty()) {
+            return false;
+        }
+
+        return $user->can('create pengajuan');
     }
 }

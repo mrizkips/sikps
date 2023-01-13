@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,35 +31,42 @@ class Pengajuan extends Model
         'status' => '0'
     ];
 
-    /**
-     * Cast status attribute
-     *
-     * @return Attribute
-     */
-    protected function status(): Attribute
+    public function getStatus()
     {
-        return Attribute::make(
-            get: function ($status) {
-                if ($status == 0) {
-                    return 'Menunggu';
-                }
-                else if ($status == 1) {
-                    return 'Diterima';
-                }
-                else if ($status == 2) {
-                    return 'Ditolak';
-                }
-                else if ($status == 3) {
-                    return 'Belum bayar';
-                }
-                else if ($status == 4) {
-                    return 'Aktif';
-                }
-                else {
-                    return null;
-                }
-            }
-        );
+        if ($this->status == 0) {
+            return 'Menunggu';
+        }
+        else if ($this->status == 1) {
+            return 'Diterima';
+        }
+        else if ($this->status == 2) {
+            return 'Ditolak';
+        }
+        else if ($this->status == 3) {
+            return 'Belum bayar';
+        }
+        else if ($this->status == 4) {
+            return 'Aktif';
+        }
+        else {
+            return null;
+        }
+    }
+
+    public function getJenis()
+    {
+        if ($this->jenis == 1) {
+            return 'Proposal';
+        }
+        else if ($this->jenis == 2) {
+            return 'Pra-Sidang';
+        }
+        else if ($this->jenis == 2) {
+            return 'Sidang';
+        }
+        else {
+            return $this->jenis;
+        }
     }
 
     /**
@@ -111,7 +117,7 @@ class Pengajuan extends Model
      */
     public function proposal()
     {
-        return $this->belongsTo(Pengajuan::class, 'proposal_id');
+        return $this->belongsTo(Proposal::class, 'proposal_id');
     }
 
     /**
@@ -145,19 +151,19 @@ class Pengajuan extends Model
      *
      * @return bool
      */
-    public function accept()
+    public function accept($catatan)
     {
         if (auth()->user()->hasRole('Keuangan')) {
             $persetujuan = $this->persetujuan->where('role_name', 'Keuangan')->first();
-            $persetujuan->accept();
+            $persetujuan->accept(auth()->user(), $catatan);
         }
 
         if (auth()->user()->hasRole('Prodi')) {
             $persetujuan = $this->persetujuan->where('role_name', 'Prodi')->first();
-            $persetujuan->accept();
+            $persetujuan->accept(auth()->user(), $catatan);
         }
 
-        if ($this->persetujuan->where('status', 'Diterima')->count() == 2) {
+        if ($this->persetujuan->where('status', '1')->count() == 2) {
             return $this->update(['status' => '1']);
         }
 
@@ -169,17 +175,17 @@ class Pengajuan extends Model
      *
      * @return bool
      */
-    public function reject()
+    public function reject($catatan = null)
     {
         if (auth()->user()->hasRole('Keuangan')) {
             $persetujuan = $this->persetujuan->where('role_name', 'Keuangan')->first();
-            $persetujuan->reject();
+            $persetujuan->reject($catatan);
             return $this->update(['status' => '3']);
         }
 
         if (auth()->user()->hasRole('Prodi')) {
             $persetujuan = $this->persetujuan->where('role_name', 'Prodi')->first();
-            $persetujuan->reject();
+            $persetujuan->reject($catatan);
             return $this->update(['status' => '2']);
         }
 
@@ -191,11 +197,11 @@ class Pengajuan extends Model
      *
      * @return bool
      */
-    public function pay()
+    public function pay($catatan)
     {
         if (auth()->user()->hasRole('Keuangan')) {
             $persetujuan = $this->persetujuan->where('role_name', 'Keuangan')->first();
-            $persetujuan->accept();
+            $persetujuan->accept(auth()->user(), $catatan);
         }
 
         if ($this->persetujuan->where('status', '1')->count() == 2) {

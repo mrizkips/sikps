@@ -13,8 +13,13 @@ class PengajuanController extends Controller
     public function index()
     {
         return view('pengajuan.index', [
-            'pengajuan' => Pengajuan::latest(),
+            'pengajuan' => Pengajuan::with('mahasiswa', 'jadwalPendaftaran', 'tahunAkademik', 'proposal', 'persetujuan')->latest()->get(),
         ]);
+    }
+
+    public function show(Pengajuan $pengajuan)
+    {
+        return view('pengajuan.show', compact('pengajuan'));
     }
 
     public function store(PengajuanRequest $request)
@@ -39,33 +44,46 @@ class PengajuanController extends Controller
         ]);
     }
 
-    public function accept(Pengajuan $pengajuan)
+    public function accept(Request $request, Pengajuan $pengajuan)
     {
         $this->authorize('accept', $pengajuan);
 
-        $pengajuan->accept();
+        $catatan = $request->validate([
+            'catatan' => ['nullable', 'string'],
+        ]);
+
+        $pengajuan->accept($catatan);
 
         return redirect()->route('pengajuan.index')->with([
             'success' => 'Berhasil menerima pengajuan'
         ]);
     }
 
-    public function reject(Pengajuan $pengajuan)
+    public function reject(Request $request, Pengajuan $pengajuan)
     {
         $this->authorize('reject', $pengajuan);
 
-        $pengajuan->reject();
+        $request->validate([
+            'catatan' => ['nullable', 'string'],
+        ]);
+
+        $catatan = $request->input('catatan');
+        $pengajuan->reject($catatan);
 
         return redirect()->route('pengajuan.index')->with([
             'success' => 'Berhasil menolak pengajuan'
         ]);
     }
 
-    public function pay(Pengajuan $pengajuan)
+    public function pay(Request $request, Pengajuan $pengajuan)
     {
         $this->authorize('pay', $pengajuan);
 
-        $pengajuan->pay();
+        $catatan = $request->validate([
+            'catatan' => ['nullable', 'string'],
+        ]);
+
+        $pengajuan->pay($catatan);
 
         return redirect()->route('pengajuan.index')->with([
             'success' => 'Berhasil menerima pengajuan'

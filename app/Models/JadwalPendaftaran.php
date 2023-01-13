@@ -113,4 +113,10 @@ class JadwalPendaftaran extends Model
     {
         return $this->belongsTo(TahunAkademik::class, 'tahun_akademik_id');
     }
+
+    public function scopeActive($query)
+    {
+        $query->where('tgl_pembukaan', '<=', today())
+            ->where('tgl_penutupan', '>=', today());
+    }
 }
