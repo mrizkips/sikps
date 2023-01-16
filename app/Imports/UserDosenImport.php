@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class UsersImport implements ToCollection, WithHeadingRow
+class UserDosenImport implements ToCollection, WithHeadingRow
 {
     /**
-    * @param Collection $collection
+    * @param Collection $collections
     */
     public function collection(Collection $collections)
     {

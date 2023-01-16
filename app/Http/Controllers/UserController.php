@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\UpdatePasswordRequest;
 use App\Http\Requests\User\UserRequest;
-use App\Imports\UsersImport;
+use App\Imports\UserDosenImport;
+use App\Imports\UserMahasiswaImport;
 use App\Models\Dosen;
 use App\Models\Mahasiswa;
 use App\Models\User;
@@ -113,10 +114,23 @@ class UserController extends Controller
 
         $this->importValidation($request);
 
-        Excel::import(new UsersImport, $request->file('file'));
+        Excel::import(new UserDosenImport, $request->file('file'));
 
         return redirect()->route('users.index')->with([
             'success' => 'Berhasil mengimport data dosen',
+        ]);
+    }
+
+    public function importMahasiswa(Request $request)
+    {
+        $this->authorize('create', User::class);
+
+        $this->importValidation($request);
+
+        Excel::import(new UserMahasiswaImport, $request->file('file'));
+
+        return redirect()->route('users.index')->with([
+            'success' => 'Berhasil mengimport data mahasiswa',
         ]);
     }
 

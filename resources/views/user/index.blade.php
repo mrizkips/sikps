@@ -34,6 +34,24 @@
                         </x-adminlte-input-file>
 
                     </form>
+                    <form action="{{ route('users.importMahasiswa') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+
+                        <x-adminlte-input-file
+                            name="file"
+                            placeholder="Pilih file xls, xlsx, atau csv..."
+                            legend="Unggah"
+                            onchange="form.submit()"
+                            label="Import Data Mahasiswa"
+                            >
+                            <x-slot name="prependSlot">
+                                <div class="input-group-text bg-lightblue">
+                                    <i class="fas fa-upload"></i>
+                                </div>
+                            </x-slot>
+                        </x-adminlte-input-file>
+
+                    </form>
                 </div>
             </div>
         </div>

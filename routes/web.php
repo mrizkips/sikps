@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
 
     Route::put('/users/{user}/update_password', [UserController::class, 'updatePassword'])->name('users.update_password');
     Route::post('/users/import/dosen', [UserController::class, 'importDosen'])->name('users.importDosen');
+    Route::post('/users/import/mahasiswa', [UserController::class, 'importMahasiswa'])->name('users.importMahasiswa');
     Route::resource('users', UserController::class);
 
     Route::resource('tahun_akademik', TahunAkademikController::class)->only('create', 'destroy', 'store');
