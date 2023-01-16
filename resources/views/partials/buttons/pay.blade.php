@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-warning btn-xs mx-1" data-toggle="modal" data-target="#pay-{{ $id }}">
+<button type="button" class="btn btn-warning btn-xs mx-1" data-toggle="modal" data-target="#pay-{{ $id }}" title="Aktivasi Keuangan">
     <i class="fas fa-money-bill-wave"></i>
 </button>
 
@@ -6,7 +6,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="payLabel-{{ $id }}">Pelunasan Pengajuan</h5>
+                <h5 class="modal-title" id="payLabel-{{ $id }}">Aktivasi Keuangan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

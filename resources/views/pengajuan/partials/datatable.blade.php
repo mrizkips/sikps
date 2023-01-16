@@ -2,7 +2,7 @@
 $heads = [
     ['label' => 'No', 'width' => 1],
     'Status',
-    ['label' => 'Judul', 'width' => 20],
+    ['label' => 'Judul', 'width' => 30],
     'Jenis',
     ['label' => 'Mahasiswa', 'width' => 30],
     'Semester',
@@ -15,6 +15,7 @@ $config = [
         $canAccept = auth()->user()->can('accept', $value);
         $canReject = auth()->user()->can('reject', $value);
         $canPay = auth()->user()->can('pay', $value);
+        $canActivate = auth()->user()->can('activate', $value);
         $canView = auth()->user()->can('view', $value);
         $canDelete = auth()->user()->can('delete', $value);
 
@@ -30,6 +31,7 @@ $config = [
                 str($canAccept ? '<nobr>' . view('partials.buttons.accept', ['route' => route('pengajuan.accept', $value), 'id' => $value->id]) . '</nobr>' : '') .
                 str($canReject ? '<nobr>' . view('partials.buttons.reject', ['route' => route('pengajuan.reject', $value), 'id' => $value->id]) . '</nobr>' : '') .
                 str($canPay ? '<nobr>' . view('partials.buttons.pay', ['route' => route('pengajuan.pay', $value), 'id' => $value->id]) . '</nobr>' : '') .
+                str($canActivate ? '<nobr>' . view('partials.buttons.activate', ['route' => route('pengajuan.activate', $value)]) . '</nobr>' : '') .
                 str($canView ? '<nobr>' . view('partials.buttons.download', ['route' => route('proposal.download', $value->proposal)]) . '</nobr>' : '') .
                 str($canView ? '<nobr>' . view('partials.buttons.show', ['route' => route('pengajuan.show', $value)]) . '</nobr>' : '') .
                 str($canDelete ? '<nobr>' . view('partials.buttons.delete', ['route' => route('pengajuan.destroy', $value)]) . '</nobr>' : ''),

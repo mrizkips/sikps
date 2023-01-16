@@ -114,7 +114,7 @@ class PengajuanPolicy
      * @param Pengajuan $pengajuan
      * @return bool
      */
-    public function kpSkripsi(User $user, Pengajuan $pengajuan)
+    public function activate(User $user, Pengajuan $pengajuan)
     {
         return $user->can('create pengajuan') && $pengajuan->status == 1;
     }

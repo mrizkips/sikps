@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::put('/users/{user}/update_password', [UserController::class, 'updatePassword'])->name('users.update_password');
+    Route::post('/users/import/dosen', [UserController::class, 'importDosen'])->name('users.importDosen');
     Route::resource('users', UserController::class);
 
     Route::resource('tahun_akademik', TahunAkademikController::class)->only('create', 'destroy', 'store');
@@ -48,7 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/pengajuan/{pengajuan}/accept', [PengajuanController::class, 'accept'])->name('pengajuan.accept');
     Route::post('/pengajuan/{pengajuan}/reject', [PengajuanController::class, 'reject'])->name('pengajuan.reject');
     Route::post('/pengajuan/{pengajuan}/pay', [PengajuanController::class, 'pay'])->name('pengajuan.pay');
-    Route::post('/pengajuan/{pengajuan}/kp_skripsi', [PengajuanController::class, 'kpSkripsi'])->name('pengajuan.kp_skripsi');
+    Route::post('/pengajuan/{pengajuan}/activate', [PengajuanController::class, 'activate'])->name('pengajuan.activate');
     Route::resource('pengajuan', PengajuanController::class)->except('update', 'edit', 'create');
 
     Route::post('kp_skripsi/{kp_skripsi}/assignDosen', [KpSkripsiController::class, 'assignDosen'])->name('kp_skripsi.assign_dosen');

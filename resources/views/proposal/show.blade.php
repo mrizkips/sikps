@@ -25,7 +25,7 @@
             <div class="card">
                 <div class="card-header">Data Proposal</div>
                 <div class="card-body p-0">
-                    @include('proposal.partials.proposal_readonly')
+                    @include('proposal.partials.readonly')
                 </div>
             </div>
         </div>

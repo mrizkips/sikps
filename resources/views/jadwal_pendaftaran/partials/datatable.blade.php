@@ -1,11 +1,9 @@
 @php
 $heads = [
-    ['label' => 'No', 'width' => 1],
     ['label' => 'Judul', 'width' => 50],
     'Jenis',
-    ['label' => 'Periode', 'width' => 25],
-    'Semester',
-    'Tahun Akademik',
+    'Mulai',
+    'Berakhir',
     ['label' => 'Aksi', 'no-export' => true, 'width' => 5],
 ];
 
@@ -16,25 +14,22 @@ $config = [
 
         return [
             'no' => $i + 1,
-            'judul' => $value->judul,
+            'judul' => $value->judul . '<br>' . '<small>' . $value->tahunAkademik->nama . ' - ' . $value->getSemester() . '</small>',
             'jenis' => $value->getJenis(),
-            'periode' => $value->tgl_pembukaan->format('d F Y') . ' - ' . $value->tgl_penutupan->format('d F Y'),
-            'semester' => $value->getSemester(),
-            'tahun_akademik' => $value->tahunAkademik->nama,
+            'mulai' => $value->tgl_pembukaan->format('d M Y'),
+            'berakhir' => $value->tgl_penutupan->format('d M Y'),
             'actions' =>
                 str($canUpdate ? '<nobr>' . view('partials.buttons.edit', ['route' => route('jadwal_pendaftaran.edit', $value)]) . '</nobr>' : '') .
                 str($canDelete ? '<nobr>' . view('partials.buttons.delete', ['route' => route('jadwal_pendaftaran.destroy', $value)]) . '</nobr>' : ''),
         ];
     }),
-    'order' => [[0, 'asc']],
+    'order' => [[2, 'desc']],
     'columns' => [
-        ['data' => 'no'],
-        ['data' => 'judul'],
-        ['data' => 'jenis'],
-        ['data' => 'periode'],
-        ['data' => 'semester'],
-        ['data' => 'tahun_akademik'],
-        ['data' => 'actions', 'orderable' => false]
+        ['data' => 'judul', 'orderable' => false],
+        ['data' => 'jenis', 'orderable' => false],
+        ['data' => 'mulai'],
+        ['data' => 'berakhir'],
+        ['data' => 'actions', 'orderable' => false, 'searchable' => false]
     ],
 ];
 @endphp

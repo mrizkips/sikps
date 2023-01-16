@@ -18,7 +18,11 @@ class KpSkripsiPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        if ($user->hasRole('Mahasiswa')) {
+            return true;
+        }
+
+        return $user->can('view any kp skripsi');
     }
 
     /**
@@ -30,7 +34,11 @@ class KpSkripsiPolicy
      */
     public function view(User $user, KpSkripsi $kpSkripsi)
     {
-        //
+        if ($user->hasRole('Mahasiswa')) {
+            return $user->can('view kp skripsi') && $kpSkripsi->mahasiswa_id === $user->mahasiswa->id;
+        }
+
+        return $user->can('view kp skripsi');
     }
 
     /**
@@ -54,6 +62,14 @@ class KpSkripsiPolicy
      */
     public function printFormBimbingan(User $user, KpSkripsi $kpSkripsi)
     {
+        if (!$kpSkripsi->hasDosenPembimbing()) {
+            return false;
+        }
+
+        if ($user->hasRole('Mahasiswa') && $kpSkripsi->hasPrintedFormBimbingan()) {
+            return false;
+        }
+
         return $user->can('print form bimbingan kp skripsi');
     }
 }

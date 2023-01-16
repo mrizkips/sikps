@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\UpdatePasswordRequest;
 use App\Http\Requests\User\UserRequest;
+use App\Imports\UsersImport;
 use App\Models\Dosen;
 use App\Models\Mahasiswa;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -27,6 +30,8 @@ class UserController extends Controller
 
     public function create()
     {
+        $this->authorize('create', User::class);
+
         return view('user.create', [
             'roles' => Role::all(),
         ]);
@@ -99,6 +104,26 @@ class UserController extends Controller
 
         return redirect('/users')->with([
             'success' => 'Berhasil menghapus user'
+        ]);
+    }
+
+    public function importDosen(Request $request)
+    {
+        $this->authorize('create', User::class);
+
+        $this->importValidation($request);
+
+        Excel::import(new UsersImport, $request->file('file'));
+
+        return redirect()->route('users.index')->with([
+            'success' => 'Berhasil mengimport data dosen',
+        ]);
+    }
+
+    public function importValidation(Request $request)
+    {
+        return $request->validate([
+            'file' => 'required|file|mimes:csv,xlsx,xls|max:10240'
         ]);
     }
 }

@@ -13,7 +13,7 @@ class JadwalPendaftaranController extends Controller
         $this->authorize('view any akademik');
 
         return view('jadwal_pendaftaran.index', [
-            'tahun_akademik' => TahunAkademik::orderBy('tahun_awal', 'desc')->get(),
+            'tahun_akademik' => TahunAkademik::orderBy('nama', 'desc')->get(),
             'jadwal_pendaftaran' => JadwalPendaftaran::with('tahunAkademik')->get(),
         ]);
     }

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->char('kd_dosen', 5)->unique();
             $table->string('nama');
-            $table->string('nidn')->nullable()->unique();
-            $table->char('inisial', 5)->nullable()->unique();
+            $table->string('nidn')->nullable();
+            $table->char('inisial', 5)->nullable();
             $table->timestamps();
         });
     }

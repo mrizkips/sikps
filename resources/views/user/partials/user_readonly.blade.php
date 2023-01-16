@@ -1,7 +1,7 @@
-<table class="table">
+<table class="table table-borderless">
     <tbody>
         <tr>
-            <th>Nama</th>
+            <th width="5">Nama</th>
             <td>{{ $user->nama }}</td>
         </tr>
         <tr>
@@ -24,10 +24,7 @@
             <th>Peran</th>
             <td>
                 @foreach ($user->getRoleNames() as $role)
-                    {{ $role }}
-                    @if (!$loop->last)
-                        <br>
-                    @endif
+                    {{ $role }} {{ !$loop->last ? ', ' : '' }}
                 @endforeach
             </td>
         </tr>

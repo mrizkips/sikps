@@ -338,6 +338,12 @@ return [
             'icon'      => 'far fa-fw fa-folder-open',
             'can'       => ['view-pengajuan'],
         ],
+        [
+            'text'      => 'Kerja Pratek & Skripsi',
+            'route'     => 'kp_skripsi.index',
+            'icon'      => 'far fa-fw fa-file-pdf',
+            'can'       => ['view-pengajuan'],
+        ],
         ['header' => 'account_settings'],
         [
             'text'      => 'profile',
@@ -447,7 +453,7 @@ return [
             ],
         ],
         'Select2' => [
-            'active' => true,
+            'active' => false,
             'files' => [
                 [
                     'type' => 'js',

@@ -87,7 +87,7 @@
                                 F.AKA-03-08-20
                             </td>
                             <td class="table-header text-center">
-                                FORM BIMBINGAN {{ $kpSkripsi->jenis == '1' ? 'KERJA PRAKTEK' : 'SKRIPSI' }}
+                                FORM BIMBINGAN {{ str($kpSkripsi->getJenis())->upper() }}
                             </td>
                         </tr>
                     </table>
@@ -100,20 +100,20 @@
                         <tr>
                             <td>Nama</td>
                             <td>:</td>
-                            <td>{{ $kpSkripsi->mahasiswa->nm_mhs }}</td>
+                            <td>{{ $kpSkripsi->mahasiswa->nama }}</td>
                         </tr>
                         <tr>
                             <td>No. Telp/ Handphone</td>
                             <td>:</td>
-                            <td>{{ $kpSkripsi->mahasiswa->nmr_hp ?? '...............................................................' }}</td>
+                            <td>{{ $kpSkripsi->mahasiswa->user->no_hp ?? '...............................................................' }}</td>
                         </tr>
                         <tr>
                             <td>Jurusan/ Prog. Studi</td>
                             <td>:</td>
-                            <td>{{ $kpSkripsi->mahasiswa->jur_id == '1' ? 'Sistem Informasi' : 'Teknik Informatika' }}</td>
+                            <td>{{ $kpSkripsi->mahasiswa->getJurusan() }}</td>
                         </tr>
                         <tr>
-                            <td>Judul {{ $kpSkripsi->jenis == '1' ? 'Kerja Praktek' : 'Skripsi' }}</td>
+                            <td>Judul {{ $kpSkripsi->getJenis() }}</td>
                             <td>:</td>
                             <td>{{ $kpSkripsi->proposal->judul }}</td>
                         </tr>

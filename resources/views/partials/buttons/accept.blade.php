@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-success btn-xs mx-1" data-toggle="modal" data-target="#accept-{{ $id }}">
+<button type="button" class="btn btn-success btn-xs mx-1" data-toggle="modal" data-target="#accept-{{ $id }}" title="Terima">
     <i class="fas fa-check"></i>
 </button>
 

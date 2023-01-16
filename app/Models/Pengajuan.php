@@ -211,10 +211,10 @@ class Pengajuan extends Model
         return $this->update(['status' => '0']);
     }
 
-    public function kpSkripsi()
+    public function activate()
     {
         $data = [
-            'jenis' => $this->proposal->jenis == 'Kerja Praktek' ? 1 : 2,
+            'jenis' => $this->proposal->jenis,
             'proposal_id' => $this->proposal_id,
             'mahasiswa_id' => $this->mahasiswa_id,
             'pengajuan_id' => $this->id,

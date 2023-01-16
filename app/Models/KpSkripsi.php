@@ -38,6 +38,19 @@ class KpSkripsi extends Model
         );
     }
 
+    public function getJenis()
+    {
+        if ($this->jenis == 1) {
+            return 'Kerja Praktek';
+        }
+        else if ($this->jenis == 2) {
+            return 'Skripsi';
+        }
+        else {
+            return $this->jenis;
+        }
+    }
+
     /**
      * Print form bimbingan update resource
      *
@@ -49,6 +62,16 @@ class KpSkripsi extends Model
             'form_bimbingan_printed_count' => $this->form_bimbingan_printed_count + 1,
             'form_bimbingan_last_printed_at' => now(),
         ]);
+    }
+
+    public function hasDosenPembimbing()
+    {
+        return $this->dosen_pembimbing_id !== null;
+    }
+
+    public function hasPrintedFormBimbingan()
+    {
+        return $this->form_bimbingan_printed_count > 0;
     }
 
     /**

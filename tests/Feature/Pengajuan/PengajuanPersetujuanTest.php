@@ -218,11 +218,11 @@ class PengajuanPersetujuanTest extends TestCase
         $mahasiswa = Mahasiswa::first();
         $this->actingAs($mahasiswa->user);
 
-        $response = $this->post(route('pengajuan.kp_skripsi', $pengajuan));
+        $response = $this->post(route('pengajuan.activate', $pengajuan));
 
         $this->assertNotNull(KpSkripsi::all());
-        $response->assertRedirect(route('kp_skripsi.index'));
-        $response->assertSessionHas(['success' => 'Berhasil menambahkan kp/skripsi']);
+        $response->assertRedirect(route('pengajuan.index'));
+        $response->assertSessionHas(['success' => 'Berhasil mengaktivasi kp/skripsi']);
     }
 
     /**

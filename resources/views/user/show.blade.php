@@ -50,7 +50,7 @@
                     <span class="mr-auto">Hak Akses</span>
                 </div>
                 <div class="card-body p-0">
-                    <table class="table">
+                    <table class="table table-borderless">
                         <tbody>
                             @foreach ($user->getAllPermissions() as $permission)
                                 @if ($loop->iteration % 3 == 1)

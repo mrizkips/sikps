@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-danger btn-xs mx-1" data-toggle="modal" data-target="#reject-{{ $id }}">
+<button type="button" class="btn btn-danger btn-xs mx-1" data-toggle="modal" data-target="#reject-{{ $id }}" title="Tolak">
     <i class="fas fa-ban"></i>
 </button>
 

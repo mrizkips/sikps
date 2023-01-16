@@ -12,13 +12,23 @@ class PengajuanController extends Controller
 {
     public function index()
     {
+        $this->authorize('viewAny', Pengajuan::class);
+
+        $pengajuan = Pengajuan::with('mahasiswa', 'jadwalPendaftaran', 'tahunAkademik', 'proposal', 'persetujuan')->latest();
+
+        if (auth()->user()->hasRole('Mahasiswa')) {
+            $pengajuan = Pengajuan::with('mahasiswa', 'jadwalPendaftaran', 'tahunAkademik', 'proposal', 'persetujuan')->where('mahasiswa_id', auth()->user()->mahasiswa->id)->latest();
+        }
+
         return view('pengajuan.index', [
-            'pengajuan' => Pengajuan::with('mahasiswa', 'jadwalPendaftaran', 'tahunAkademik', 'proposal', 'persetujuan')->latest()->get(),
+            'pengajuan' => $pengajuan->get(),
         ]);
     }
 
     public function show(Pengajuan $pengajuan)
     {
+        $this->authorize('view', $pengajuan);
+
         return view('pengajuan.show', compact('pengajuan'));
     }
 
@@ -52,6 +62,7 @@ class PengajuanController extends Controller
             'catatan' => ['nullable', 'string'],
         ]);
 
+        $catatan = $request->input('catatan');
         $pengajuan->accept($catatan);
 
         return redirect()->route('pengajuan.index')->with([
@@ -83,6 +94,7 @@ class PengajuanController extends Controller
             'catatan' => ['nullable', 'string'],
         ]);
 
+        $catatan = $request->input('catatan');
         $pengajuan->pay($catatan);
 
         return redirect()->route('pengajuan.index')->with([
@@ -90,14 +102,14 @@ class PengajuanController extends Controller
         ]);
     }
 
-    public function kpSkripsi(Pengajuan $pengajuan)
+    public function activate(Pengajuan $pengajuan)
     {
-        $this->authorize('kpSkripsi', $pengajuan);
+        $this->authorize('activate', $pengajuan);
 
-        $pengajuan->kpSkripsi();
+        $pengajuan->activate();
 
-        return redirect()->route('kp_skripsi.index')->with([
-            'success' => 'Berhasil menambahkan kp/skripsi'
+        return redirect()->route('pengajuan.index')->with([
+            'success' => 'Berhasil mengaktivasi kp/skripsi'
         ]);
     }
 }
