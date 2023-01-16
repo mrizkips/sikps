@@ -74,7 +74,8 @@
         <script>
             $('#assignModal').on('show.bs.modal', (event) => {
                 const id = $(event.relatedTarget).data('id')
-                $('#assignForm').attr('action', '/kp_skripsi/' + id + '/assignDosen')
+                const route = "{{ url('kp_skripsi') }}" + '/' + id + '/assignDosen'
+                $('#assignForm').attr('action', route)
             })
         </script>
     @endpush
