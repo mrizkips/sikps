@@ -75,11 +75,11 @@ class Persetujuan extends Model
      *
      * @return bool
      */
-    public function accept(User $user = null, $catatan = null)
+    public function accept($catatan = null)
     {
         return $this->update([
             'status' => '1',
-            'user_id' => $user->id ?? auth()->user()->id,
+            'user_id' => auth()->user()->id,
             'catatan' => $catatan,
         ]);
     }
@@ -89,11 +89,11 @@ class Persetujuan extends Model
      *
      * @return bool
      */
-    public function reject(User $user = null, $catatan = null)
+    public function reject($catatan = null)
     {
         return $this->update([
             'status' => '2',
-            'user_id' => $user->id ?? auth()->user()->id,
+            'user_id' => auth()->user()->id,
             'catatan' => $catatan,
         ]);
     }
