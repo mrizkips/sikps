@@ -19,6 +19,7 @@
     <p>Selamat datang kembali, {{ auth()->user()->nama }}</p>
 
     <div class="row">
+        @if ($jadwal_pendaftaran->isNotEmpty())
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-header">List Jadwal Pendaftaran</div>
@@ -48,6 +49,8 @@
                 </div>
             </div>
         </div>
+        @endif
+        @if ($pengajuan->isNotEmpty())
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">List Pengajuan</div>
@@ -77,5 +80,6 @@
                 </div>
             </div>
         </div>
+        @endif
     </div>
 @stop
