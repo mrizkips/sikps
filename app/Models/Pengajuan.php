@@ -155,12 +155,12 @@ class Pengajuan extends Model
     {
         if (auth()->user()->hasRole('Keuangan')) {
             $persetujuan = $this->persetujuan->where('role_name', 'Keuangan')->first();
-            $persetujuan->accept(auth()->user(), $catatan);
+            $persetujuan->accept($catatan);
         }
 
         if (auth()->user()->hasRole('Prodi')) {
             $persetujuan = $this->persetujuan->where('role_name', 'Prodi')->first();
-            $persetujuan->accept(auth()->user(), $catatan);
+            $persetujuan->accept($catatan);
         }
 
         if ($this->persetujuan->where('status', '1')->count() == 2) {
