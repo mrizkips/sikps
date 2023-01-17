@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\KpSkripsi;
 use App\Models\Proposal;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -89,6 +90,15 @@ class ProposalPolicy
     public function send(User $user, Proposal $proposal)
     {
         if ($proposal->pengajuan->isNotEmpty()) {
+            return false;
+        }
+
+        $kpSkripsi = KpSkripsi::query()
+            ->where('mahasiswa_id', $user->mahasiswa->id)
+            ->where('jenis', $proposal->jenis)
+            ->count();
+
+        if ($kpSkripsi > 0) {
             return false;
         }
 
