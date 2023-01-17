@@ -45,7 +45,6 @@ class KpSkripsiPermissionSeeder extends Seeder
         $prodi->givePermissionTo([
             $viewKpSkripsiPermission,
             $viewAnyKpSkripsiPermission,
-            $assignDosenKpSkripsiPermission,
         ]);
 
         $keuangan->givePermissionTo([
