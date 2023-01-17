@@ -41,5 +41,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('view-pengajuan', function (User $user) {
             return $user->can('view any pengajuan');
         });
+
+        Gate::define('view-kp-skripsi', function (User $user) {
+            return $user->can('view any kp skripsi');
+        });
     }
 }

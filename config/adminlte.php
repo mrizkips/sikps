@@ -324,7 +324,7 @@ return [
         ],
         [
             'header'    => 'PROPOSAL & PENGAJUAN',
-            'can'       => ['view-proposal', 'view-pengajuan'],
+            'can'       => ['view-proposal', 'view-pengajuan', 'view-kp-skripsi'],
         ],
         [
             'text'      => 'Proposal',
@@ -342,7 +342,7 @@ return [
             'text'      => 'Kerja Pratek & Skripsi',
             'route'     => 'kp_skripsi.index',
             'icon'      => 'far fa-fw fa-file-pdf',
-            'can'       => ['view-pengajuan'],
+            'can'       => ['view-kp-skripsi'],
         ],
         ['header' => 'account_settings'],
         [
