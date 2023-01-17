@@ -18,14 +18,15 @@ class UserDosenImport implements ToCollection, WithHeadingRow
     {
         DB::beginTransaction();
         foreach ($collections as $collection) {
-            $nama = str($collection['nm_dosen'])->trim();
-            $kdDosen = str($collection['kd_dosen'])->trim();
+            $nama = str($collection['nama'])->trim();
+            $kdDosen = str($collection['kode_dosen'])->trim();
             $nidn = str($collection['nidn'])->trim();
             $inisial = str($collection['inisial'])->trim();
+            $jk = str($collection['jenis_kelamin'])->upper();
 
             $user = User::updateOrCreate(
                 ['username' => $kdDosen],
-                ['nama' => $nama, 'password' => $kdDosen . '@sikps'],
+                ['nama' => $nama, 'password' => $kdDosen . '@sikps', 'jk' => $jk],
             );
 
             $user->assignRole('Dosen');
