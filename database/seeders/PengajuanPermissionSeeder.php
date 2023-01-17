@@ -21,7 +21,6 @@ class PengajuanPermissionSeeder extends Seeder
         $prodi = Role::firstOrCreate(['name' => 'Prodi']);
         $keuangan = Role::firstOrCreate(['name' => 'Keuangan']);
         $mahasiswa = Role::firstOrCreate(['name' => 'Mahasiswa']);
-        $dosen = Role::firstOrCreate(['name' => 'Dosen']);
 
         $createPengajuanPermission = Permission::findOrCreate('create pengajuan');
         $deletePengajuanPermission = Permission::findOrCreate('delete pengajuan');
@@ -53,11 +52,6 @@ class PengajuanPermissionSeeder extends Seeder
             $viewPengajuanPermission,
             $acceptPengajuanPermission,
             $rejectPengajuanPermission,
-        ]);
-
-        $dosen->givePermissionTo([
-            $viewAnyPengajuanPermission,
-            $viewPengajuanPermission
         ]);
 
         $mahasiswa->givePermissionTo([
