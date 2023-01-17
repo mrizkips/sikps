@@ -22,8 +22,14 @@ class KpSkripsiController extends Controller
             'jadwalPendaftaran'
         ]);
 
-        if (auth()->user()->hasRole('Mahasiswa')) {
+        $user = auth()->user();
+
+        if ($user->hasRole('Mahasiswa')) {
             $kpSkripsi->where('mahasiswa_id', auth()->user()->mahasiswa->id);
+        }
+
+        if ($user->hasRole('Dosen')) {
+            $kpSkripsi->where('dosen_pembimbing_id', $user->dosen->id);
         }
 
         return view('kp_skripsi.index', [
