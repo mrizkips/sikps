@@ -18,7 +18,7 @@ class ProposalController extends Controller
     public function index()
     {
         return view('proposal.index', [
-            'proposal' => Proposal::latest()->get(),
+            'proposal' => Proposal::where('mahasiswa_id', auth()->user()->mahasiswa->id)->latest()->get(),
         ]);
     }
 
