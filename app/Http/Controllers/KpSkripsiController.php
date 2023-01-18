@@ -27,8 +27,9 @@ class KpSkripsiController extends Controller
         if ($user->can('assign dosen kp skripsi') && $dosen_pembimbing = $request->input('filter_dosen_pembimbing')) {
             if ($dosen_pembimbing != 'null') {
                 $kpSkripsi->where('dosen_pembimbing_id', $dosen_pembimbing);
+            } else {
+                $kpSkripsi->where('dosen_pembimbing_id', null);
             }
-            $kpSkripsi->where('dosen_pembimbing_id', null);
         }
 
         if ($user->hasRole('Mahasiswa')) {

@@ -37,7 +37,7 @@
     foreach ($dosen as $value) {
         $dosen = collect([
             'id' => $value->id,
-            'text' => $value->kd_dosen . '-' . $value->nama,
+            'text' => $value->kd_dosen . ' - ' . $value->nama,
             'selected' => request()->get('filter_dosen_pembimbing') == $value->id ? true : false,
         ]);
 
