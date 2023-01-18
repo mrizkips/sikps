@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class KpSkripsiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', KpSkripsi::class);
 
@@ -23,6 +23,13 @@ class KpSkripsiController extends Controller
         ]);
 
         $user = auth()->user();
+
+        if ($user->can('assign dosen kp skripsi') && $dosen_pembimbing = $request->input('filter_dosen_pembimbing')) {
+            if ($dosen_pembimbing != 'null') {
+                $kpSkripsi->where('dosen_pembimbing_id', $dosen_pembimbing);
+            }
+            $kpSkripsi->where('dosen_pembimbing_id', null);
+        }
 
         if ($user->hasRole('Mahasiswa')) {
             $kpSkripsi->where('mahasiswa_id', auth()->user()->mahasiswa->id);

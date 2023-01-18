@@ -18,7 +18,7 @@
 
 @php
     $config = [
-        'tags' => true,
+        'allowClear' => true,
         'placeholder' => 'Pilih Dosen Pembimbing',
         'data' => $dosen->map(function ($value, $i) {
             return [
@@ -27,10 +27,56 @@
             ];
         }),
     ];
+
+    $filterDosen = collect([[
+        'id' => 'null',
+        'text' => 'Belum memiliki dosen pembimbing',
+        'selected' => request()->get('filter_dosen_pembimbing') == 'null' ? true : false,
+    ]]);
+
+    foreach ($dosen as $value) {
+        $dosen = collect([
+            'id' => $value->id,
+            'text' => $value->kd_dosen . '-' . $value->nama,
+            'selected' => request()->get('filter_dosen_pembimbing') == $value->id ? true : false,
+        ]);
+
+        $filterDosen = $filterDosen->push($dosen);
+    }
+
+    $configFilter = [
+        'allowClear' => true,
+        'placeholder' => 'Pilih Dosen Pembimbing',
+        'data' => $filterDosen,
+    ];
+
 @endphp
 
 @section('content')
     <p>Mengelola data kerja praktek & skripsi.</p>
+
+    @can('assign dosen kp skripsi')
+
+    <div class="card">
+        <div class="card-header">Filter Data</div>
+        <div class="card-body">
+            <form action="{{ route('kp_skripsi.index') }}" method="get">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <x-adminlte-select2
+                            label="Berdasarkan dosen pembimbing"
+                            name="filter_dosen_pembimbing"
+                            :config="$configFilter" />
+                    </div>
+                </div>
+                <button class="btn btn-primary">
+                    <i class="fas fa-sm fa-filter"></i> Filter Data
+                </button>
+            </form>
+        </div>
+    </div>
+
+    @endcan
 
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
