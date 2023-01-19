@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\KpSkripsi;
 use App\Models\Proposal;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProposalRequest extends FormRequest
 {
@@ -34,9 +36,16 @@ class ProposalRequest extends FormRequest
      */
     public function rules()
     {
+        $jenis = KpSkripsi::byMahasiswaId($this->user()->mahasiswa->id)
+            ->where('jenis', $this->input('jenis'))
+            ->get()
+            ->map(function ($value, $i) {
+            return $value->jenis;
+        });
+
         $rules = [
             'judul' => ['required', 'string'],
-            'jenis' => ['required', 'in:1,2'],
+            'jenis' => ['required', 'in:1,2', Rule::notIn($jenis)],
             'deskripsi' => ['required', 'string'],
             'organisasi' => ['required_if:jenis,1', 'string']
         ];
@@ -80,6 +89,7 @@ class ProposalRequest extends FormRequest
     {
         return [
             'organisasi.required_if' => ':attribute harus diisi jika jenis adalah kerja praktek.',
+            'jenis.not_in' => ':attribute yang dipilih tidak tersedia.'
         ];
     }
 
