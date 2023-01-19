@@ -29,7 +29,6 @@ class PengajuanTest extends TestCase
     /** @test */
     public function bisa_menambahkan_pengajuan_proposal()
     {
-        $this->withoutExceptionHandling();
         $this->seed([JadwalPendaftaranSeederTest::class, MahasiswaSeederTest::class]);
 
         $mahasiswa = Mahasiswa::first();
@@ -66,7 +65,6 @@ class PengajuanTest extends TestCase
     /** @test */
     public function bisa_menghapus_pengajuan()
     {
-        $this->withoutExceptionHandling();
         $this->seed([JadwalPendaftaranSeederTest::class, MahasiswaSeederTest::class]);
 
         $mahasiswa = Mahasiswa::first();
