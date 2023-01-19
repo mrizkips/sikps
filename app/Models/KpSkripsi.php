@@ -133,4 +133,19 @@ class KpSkripsi extends Model
     {
         return $this->belongsTo(Dosen::class, 'dosen_pembimbing_id');
     }
+
+    public function scopeByMahasiswaId($query, $id)
+    {
+        $query->where('mahasiswa_id', $id);
+    }
+
+    public function scopeByDosenId($query, $id)
+    {
+        $query->where('dosen_pembimbing_id', $id);
+    }
+
+    public function scopeDoesntHaveMentor($query)
+    {
+        $query->where('dosen_pembimbing_id', null);
+    }
 }

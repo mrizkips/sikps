@@ -13,31 +13,24 @@ class KpSkripsiController extends Controller
     {
         $this->authorize('viewAny', KpSkripsi::class);
 
-        $kpSkripsi = KpSkripsi::with([
-            'proposal',
-            'pengajuan',
-            'mahasiswa',
-            'dosen',
-            'tahunAkademik',
-            'jadwalPendaftaran'
-        ]);
+        $kpSkripsi = KpSkripsi::query();
 
         $user = auth()->user();
 
         if ($user->can('assign dosen kp skripsi') && $dosen_pembimbing = $request->input('filter_dosen_pembimbing')) {
             if ($dosen_pembimbing != 'null') {
-                $kpSkripsi->where('dosen_pembimbing_id', $dosen_pembimbing);
+                $kpSkripsi->byDosenId($dosen_pembimbing);
             } else {
-                $kpSkripsi->where('dosen_pembimbing_id', null);
+                $kpSkripsi->doesntHaveMentor();
             }
         }
 
         if ($user->hasRole('Mahasiswa')) {
-            $kpSkripsi->where('mahasiswa_id', auth()->user()->mahasiswa->id);
+            $kpSkripsi->byMahasiswaId($user->mahasiswa->id);
         }
 
         if ($user->hasRole('Dosen')) {
-            $kpSkripsi->where('dosen_pembimbing_id', $user->dosen->id);
+            $kpSkripsi->byDosenId($user->dosen->id);
         }
 
         return view('kp_skripsi.index', [
