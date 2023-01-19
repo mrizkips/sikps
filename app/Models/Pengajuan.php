@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,6 +23,8 @@ class Pengajuan extends Model
      * @var mixed
      */
     protected $guarded = [];
+
+    protected $with = ['mahasiswa', 'jadwalPendaftaran', 'tahunAkademik', 'proposal', 'persetujuan'];
 
     /**
      * The model's default values for attributes.
@@ -154,17 +157,19 @@ class Pengajuan extends Model
     public function accept($catatan)
     {
         if (auth()->user()->hasRole('Keuangan')) {
-            $persetujuan = $this->persetujuan->where('role_name', 'Keuangan')->first();
+            $persetujuan = $this->persetujuan()->roleKeuangan()->first();
             $persetujuan->accept($catatan);
         }
 
         if (auth()->user()->hasRole('Prodi')) {
-            $persetujuan = $this->persetujuan->where('role_name', 'Prodi')->first();
+            $persetujuan = $this->persetujuan()->roleProdi()->first();
             $persetujuan->accept($catatan);
+
+            Persetujuan::create(['pengajuan_id' => $this->id, 'role_name' => 'Keuangan']);
         }
 
-        if ($this->persetujuan->where('status', '1')->count() == 2) {
-            return $this->update(['status' => '1']);
+        if ($this->persetujuan()->statusAccepted()->count() == 2) {
+            return $this->updateStatusAccepted();
         }
 
         return false;
@@ -178,15 +183,15 @@ class Pengajuan extends Model
     public function reject($catatan = null)
     {
         if (auth()->user()->hasRole('Keuangan')) {
-            $persetujuan = $this->persetujuan->where('role_name', 'Keuangan')->first();
+            $persetujuan = $this->persetujuan()->roleKeuangan()->first();
             $persetujuan->reject($catatan);
-            return $this->update(['status' => '3']);
+            return $this->updateStatusPending();
         }
 
         if (auth()->user()->hasRole('Prodi')) {
-            $persetujuan = $this->persetujuan->where('role_name', 'Prodi')->first();
+            $persetujuan = $this->persetujuan()->roleProdi()->first();
             $persetujuan->reject($catatan);
-            return $this->update(['status' => '2']);
+            return $this->updateStatusRejected();
         }
 
         return false;
@@ -200,15 +205,15 @@ class Pengajuan extends Model
     public function pay($catatan)
     {
         if (auth()->user()->hasRole('Keuangan')) {
-            $persetujuan = $this->persetujuan->where('role_name', 'Keuangan')->first();
+            $persetujuan = $this->persetujuan()->roleKeuangan()->first();
             $persetujuan->accept($catatan);
         }
 
-        if ($this->persetujuan->where('status', '1')->count() == 2) {
-            return $this->update(['status' => '1']);
+        if ($this->persetujuan()->statusAccepted()->count() == 2) {
+            return $this->updateStatusActive();
         }
 
-        return $this->update(['status' => '0']);
+        return $this->updateStatusWaiting();
     }
 
     public function activate()
@@ -223,7 +228,7 @@ class Pengajuan extends Model
         ];
 
         if (KpSkripsi::create($data)) {
-            return $this->update(['status' => '4']);
+            return $this->updateStatusActive();
         }
 
         return false;
@@ -248,5 +253,74 @@ class Pengajuan extends Model
         }
 
         return false;
+    }
+
+    public function updateStatusWaiting()
+    {
+        return $this->update(['status' => '0']);
+    }
+
+    public function updateStatusAccepted()
+    {
+        return $this->update(['status' => '1']);
+    }
+
+    public function updateStatusRejected()
+    {
+        return $this->update(['status' => '2']);
+    }
+
+    public function updateStatusPending()
+    {
+        return $this->update(['status' => '3']);
+    }
+
+    public function updateStatusActive()
+    {
+        return $this->update(['status' => '4']);
+    }
+
+    public function scopeStatusWaiting($query)
+    {
+        $query->where('status', '0');
+    }
+
+    public function scopeStatusAccepted($query)
+    {
+        $query->where('status', '1');
+    }
+
+    public function scopeStatusRejected($query)
+    {
+        $query->where('status', '2');
+    }
+
+    public function scopeStatusPending($query)
+    {
+        $query->where('status', '3');
+    }
+
+    public function scopeStatusActive($query)
+    {
+        $query->where('status', '4');
+    }
+
+    public function scopePersetujuanKeuangan($query)
+    {
+        $query->whereHas('persetujuan', function (Builder $builder) {
+            $builder->where('role_name', 'Keuangan');
+        });
+    }
+
+    public function scopePersetujuanProdi($query)
+    {
+        $query->whereHas('persetujuan', function (Builder $builder) {
+            $builder->where('role_name', 'Prodi');
+        });
+    }
+
+    public function scopeByMahasiswaId($query, $id)
+    {
+        $query->where('mahasiswa_id', $id);
     }
 }

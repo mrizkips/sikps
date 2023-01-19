@@ -14,10 +14,18 @@ class PengajuanController extends Controller
     {
         $this->authorize('viewAny', Pengajuan::class);
 
-        $pengajuan = Pengajuan::with('mahasiswa', 'jadwalPendaftaran', 'tahunAkademik', 'proposal', 'persetujuan')->latest();
+        $pengajuan = Pengajuan::latest();
+
+        if (auth()->user()->hasRole('Prodi')) {
+            $pengajuan = Pengajuan::persetujuanProdi()->latest();
+        }
+
+        if (auth()->user()->hasRole('Keuangan')) {
+            $pengajuan = Pengajuan::persetujuanKeuangan()->latest();
+        }
 
         if (auth()->user()->hasRole('Mahasiswa')) {
-            $pengajuan = Pengajuan::with('mahasiswa', 'jadwalPendaftaran', 'tahunAkademik', 'proposal', 'persetujuan')->where('mahasiswa_id', auth()->user()->mahasiswa->id)->latest();
+            $pengajuan = Pengajuan::byMahasiswaId(auth()->user()->mahasiswa->id)->latest();
         }
 
         return view('pengajuan.index', [

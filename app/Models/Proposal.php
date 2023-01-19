@@ -90,7 +90,6 @@ class Proposal extends Model
         DB::transaction(function () use ($data) {
             $pengajuan = $this->pengajuan()->create($data);
 
-            Persetujuan::create(['pengajuan_id' => $pengajuan->id, 'role_name' => 'Keuangan']);
             Persetujuan::create(['pengajuan_id' => $pengajuan->id, 'role_name' => 'Prodi']);
         });
     }

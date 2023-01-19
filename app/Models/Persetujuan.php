@@ -97,4 +97,29 @@ class Persetujuan extends Model
             'catatan' => $catatan,
         ]);
     }
+
+    public function scopeRoleKeuangan($query)
+    {
+        $query->where('role_name', 'Keuangan');
+    }
+
+    public function scopeRoleProdi($query)
+    {
+        $query->where('role_name', 'Prodi');
+    }
+
+    public function scopeStatusWaiting($query)
+    {
+        $query->where('status', '0');
+    }
+
+    public function scopeStatusAccepted($query)
+    {
+        $query->where('status', '1');
+    }
+
+    public function scopeStatusRejected($query)
+    {
+        $query->where('status', '2');
+    }
 }
