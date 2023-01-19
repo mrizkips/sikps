@@ -59,7 +59,8 @@ class KpSkripsiPermissionSeeder extends Seeder
 
         $mahasiswa->givePermissionTo([
             $viewKpSkripsiPermission,
-            $printFormBimbinganKpSkripsiPermission
+            $viewAnyKpSkripsiPermission,
+            $printFormBimbinganKpSkripsiPermission,
         ]);
     }
 }

@@ -18,10 +18,6 @@ class KpSkripsiPolicy
      */
     public function viewAny(User $user)
     {
-        if ($user->hasRole('Mahasiswa')) {
-            return true;
-        }
-
         return $user->can('view any kp skripsi');
     }
 
