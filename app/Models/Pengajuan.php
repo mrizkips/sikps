@@ -210,7 +210,7 @@ class Pengajuan extends Model
         }
 
         if ($this->persetujuan()->statusAccepted()->count() == 2) {
-            return $this->updateStatusActive();
+            return $this->updateStatusAccepted();
         }
 
         return $this->updateStatusWaiting();
