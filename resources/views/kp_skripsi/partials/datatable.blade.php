@@ -3,7 +3,8 @@ $heads = [
     ['label' => 'No', 'width' => 1],
     ['label' => 'Judul', 'width' => 30],
     'Jenis',
-    ['label' => 'Mahasiswa', 'width' => 30],
+    'NIM',
+    ['label' => 'Nama'],
     'Semester',
     'Tahun Akademik',
     'Pembimbing',
@@ -11,6 +12,21 @@ $heads = [
 ];
 
 $config = [
+    'dom' => 'Bfrtip',
+    'buttons' => [
+        [
+            'extend' => 'excelHtml5',
+            'title' => 'Data KP dan Skripsi'
+        ],
+        [
+            'extend' => 'csvHtml5',
+            'title' => 'Data KP dan Skripsi'
+        ],
+        [
+            'extend' => 'pdfHtml5',
+            'title' => 'Data KP dan Skripsi'
+        ],
+    ],
     'data' => $kp_skripsi->map(function ($value, $i) use ($dosen) {
         $canView = auth()->user()->can('view', $value);
         $canAssign = auth()->user()->can('assignDosen', $value);
@@ -20,7 +36,8 @@ $config = [
             'no' => $i + 1,
             'judul' => $value->proposal->judul,
             'jenis' => str($value->proposal->getJenis()),
-            'mahasiswa' => str(view('pengajuan.partials.mahasiswa_view', ['mahasiswa' => $value->mahasiswa])),
+            'nim' => $value->mahasiswa->nim,
+            'nama' => $value->mahasiswa->nama,
             'semester' => $value->jadwalPendaftaran->getSemester(),
             'tahunAkademik' => $value->tahunAkademik->nama,
             'pembimbing' => $value->dosen->nama ?? '-',
@@ -36,7 +53,8 @@ $config = [
         ['data' => 'no'],
         ['data' => 'judul'],
         ['data' => 'jenis'],
-        ['data' => 'mahasiswa'],
+        ['data' => 'nim'],
+        ['data' => 'nama'],
         ['data' => 'semester'],
         ['data' => 'tahunAkademik'],
         ['data' => 'pembimbing'],
