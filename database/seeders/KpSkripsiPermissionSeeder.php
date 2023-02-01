@@ -31,20 +31,19 @@ class KpSkripsiPermissionSeeder extends Seeder
         $admin->givePermissionTo([
             $viewKpSkripsiPermission,
             $viewAnyKpSkripsiPermission,
-            $assignDosenKpSkripsiPermission,
             $printFormBimbinganKpSkripsiPermission
         ]);
 
         $staff->givePermissionTo([
             $viewKpSkripsiPermission,
             $viewAnyKpSkripsiPermission,
-            $assignDosenKpSkripsiPermission,
             $printFormBimbinganKpSkripsiPermission
         ]);
 
         $prodi->givePermissionTo([
             $viewKpSkripsiPermission,
             $viewAnyKpSkripsiPermission,
+            $assignDosenKpSkripsiPermission
         ]);
 
         $keuangan->givePermissionTo([
