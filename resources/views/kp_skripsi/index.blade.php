@@ -31,14 +31,14 @@
     $filterDosen = collect([[
         'id' => 'null',
         'text' => 'Belum memiliki dosen pembimbing',
-        'selected' => request()->get('filter_dosen_pembimbing') == 'null' ? true : false,
+        'selected' => request()->get('filter_dosen_pembimbing') == 'null',
     ]]);
 
     foreach ($dosen as $value) {
         $dosen = collect([
             'id' => $value->id,
             'text' => $value->kd_dosen . ' - ' . $value->nama,
-            'selected' => request()->get('filter_dosen_pembimbing') == $value->id ? true : false,
+            'selected' => request()->get('filter_dosen_pembimbing') == $value->id,
         ]);
 
         $filterDosen = $filterDosen->push($dosen);
