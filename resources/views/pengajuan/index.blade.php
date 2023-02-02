@@ -16,8 +16,40 @@
     </div>
 @stop
 
+@php
+    $configFilter = [
+        'allowClear' => true,
+        'placeholder' => 'Pilih Dosen Pembimbing',
+        'data' => collect([
+            ['id' => '1', 'text' => 'Sistem Informasi', 'selected' => request()->get('filter_jurusan') == 1],
+            ['id' => '2', 'text' => 'Teknik Informatika', 'selected' => request()->get('filter_jurusan') == 2]
+        ]),
+    ];
+@endphp
+
+@section('plugins.Select2', true)
+
 @section('content')
     <p>Mengelola data pengajuan.</p>
+
+    <div class="card">
+        <div class="card-header">Filter Data</div>
+        <div class="card-body">
+            <form action="{{ route('pengajuan.index') }}" method="get">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <x-adminlte-select2
+                            label="Berdasarkan prodi"
+                            name="filter_jurusan"
+                            :config="$configFilter" />
+                    </div>
+                </div>
+                <button class="btn btn-primary">
+                    <i class="fas fa-sm fa-filter"></i> Filter Data
+                </button>
+            </form>
+        </div>
+    </div>
 
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">

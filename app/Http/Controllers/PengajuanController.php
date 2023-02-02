@@ -10,11 +10,11 @@ use Illuminate\Http\Request;
 
 class PengajuanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', Pengajuan::class);
 
-        $pengajuan = Pengajuan::latest();
+        $pengajuan = Pengajuan::query();
 
         if (auth()->user()->hasRole('Prodi')) {
             $pengajuan = Pengajuan::persetujuanProdi()->latest();
@@ -28,8 +28,12 @@ class PengajuanController extends Controller
             $pengajuan = Pengajuan::byMahasiswaId(auth()->user()->mahasiswa->id)->latest();
         }
 
+        if ($jurusan = $request->get('filter_jurusan')) {
+            $pengajuan->byJurusan($jurusan);
+        }
+
         return view('pengajuan.index', [
-            'pengajuan' => $pengajuan->get(),
+            'pengajuan' => $pengajuan->latest()->get(),
         ]);
     }
 

@@ -323,4 +323,13 @@ class Pengajuan extends Model
     {
         $query->where('mahasiswa_id', $id);
     }
+
+    public function scopeByJurusan($query, $jurusan)
+    {
+        $query->when($jurusan, function ($q, $role) use ($jurusan) {
+            $q->whereHas('mahasiswa', function (Builder $builder) use ($jurusan) {
+                $builder->where('jurusan', $jurusan);
+            });
+        });
+    }
 }
