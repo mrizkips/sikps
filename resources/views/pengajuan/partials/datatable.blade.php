@@ -40,7 +40,7 @@ $config = [
             'no' => $i + 1,
             'status' => str(view('pengajuan.partials.status', ['pengajuan' => $value])),
             'judul' => $value->proposal->judul,
-            'jenis' => str($value->getJenis() . '<br>' . '<nobr>' . $value->proposal->getJenis() . '</nobr>'),
+            'jenis' => str($value->getJenis() . ' <br>' . '<nobr>' . $value->proposal->getJenis() . '</nobr>'),
             'nim' => $value->mahasiswa->nim,
             'nama' => $value->mahasiswa->nama,
             'semester' => $value->jadwalPendaftaran->getSemester(),
