@@ -17,15 +17,15 @@ $config = [
     'buttons' => [
         [
             'extend' => 'excelHtml5',
-            'title' => 'Data KP dan Skripsi'
+            'title' => 'Data pengajuan KP & Skripsi'
         ],
         [
             'extend' => 'csvHtml5',
-            'title' => 'Data KP dan Skripsi'
+            'title' => 'Data pengajuan KP & Skripsi'
         ],
         [
             'extend' => 'pdfHtml5',
-            'title' => 'Data KP dan Skripsi'
+            'title' => 'Data pengajuan KP & Skripsi'
         ],
     ],
     'data' => $pengajuan->map(function ($value, $i) {
