@@ -4,13 +4,30 @@ $heads = [
     'Status',
     ['label' => 'Judul', 'width' => 30],
     'Jenis',
-    ['label' => 'Mahasiswa', 'width' => 30],
+    ['label' => 'NIM'],
+    ['label' => 'Nama', 'width' => 30],
     'Semester',
     'Tahun Akademik',
+    'Tanggal Pengajuan',
     ['label' => 'Aksi', 'no-export' => true, 'width' => 5],
 ];
 
 $config = [
+    'dom' => 'Bfrtip',
+    'buttons' => [
+        [
+            'extend' => 'excelHtml5',
+            'title' => 'Data KP dan Skripsi'
+        ],
+        [
+            'extend' => 'csvHtml5',
+            'title' => 'Data KP dan Skripsi'
+        ],
+        [
+            'extend' => 'pdfHtml5',
+            'title' => 'Data KP dan Skripsi'
+        ],
+    ],
     'data' => $pengajuan->map(function ($value, $i) {
         $canAccept = auth()->user()->can('accept', $value);
         $canReject = auth()->user()->can('reject', $value);
@@ -24,9 +41,11 @@ $config = [
             'status' => str(view('pengajuan.partials.status', ['pengajuan' => $value])),
             'judul' => $value->proposal->judul,
             'jenis' => str($value->getJenis() . '<br>' . '<nobr>' . $value->proposal->getJenis() . '</nobr>'),
-            'mahasiswa' => str(view('pengajuan.partials.mahasiswa_view', ['mahasiswa' => $value->mahasiswa])),
+            'nim' => $value->mahasiswa->nim,
+            'nama' => $value->mahasiswa->nama,
             'semester' => $value->jadwalPendaftaran->getSemester(),
             'tahunAkademik' => $value->tahunAkademik->nama,
+            'tanggalPengajuan' => $value->created_at->format('d M Y'),
             'actions' =>
                 str($canAccept ? '<nobr>' . view('partials.buttons.accept', ['route' => route('pengajuan.accept', $value), 'id' => $value->id]) . '</nobr>' : '') .
                 str($canReject ? '<nobr>' . view('partials.buttons.reject', ['route' => route('pengajuan.reject', $value), 'id' => $value->id]) . '</nobr>' : '') .
@@ -43,9 +62,11 @@ $config = [
         ['data' => 'status'],
         ['data' => 'judul'],
         ['data' => 'jenis'],
-        ['data' => 'mahasiswa'],
+        ['data' => 'nim'],
+        ['data' => 'nama'],
         ['data' => 'semester'],
         ['data' => 'tahunAkademik'],
+        ['data' => 'tanggalPengajuan'],
         ['data' => 'actions', 'orderable' => false],
     ],
 ];
