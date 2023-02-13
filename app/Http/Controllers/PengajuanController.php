@@ -32,6 +32,11 @@ class PengajuanController extends Controller
             $pengajuan->byJurusan($jurusan);
         }
 
+        if ($request->get('filter_status') || $request->get('filter_status') == '0') {
+            $status = $request->get('filter_status');
+            $pengajuan->byStatus($status);
+        }
+
         return view('pengajuan.index', [
             'pengajuan' => $pengajuan->latest()->get(),
         ]);
