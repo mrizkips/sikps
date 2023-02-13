@@ -35,7 +35,7 @@
     <div class="card">
         <div class="card-header">Filter Data</div>
         <div class="card-body">
-            <form action="{{ route('pengajuan.index') }}" method="get">
+            <form action="{{ request()->fullUrl() }}" method="get">
                 <div class="row">
                     <div class="col-lg-4">
                         <x-adminlte-select2
