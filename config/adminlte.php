@@ -334,9 +334,30 @@ return [
         ],
         [
             'text'      => 'Pengajuan',
-            'route'     => 'pengajuan.index',
             'icon'      => 'far fa-fw fa-folder-open',
             'can'       => ['view-pengajuan'],
+            'submenu'   => [
+                [
+                    'text'  => 'Menunggu',
+                    'route' => ['pengajuan.index', ['filter_status' => '0']],
+                ],
+                [
+                    'text'  => 'Diterima',
+                    'route' => ['pengajuan.index', ['filter_status' => '1']],
+                ],
+                [
+                    'text'  => 'Ditolak',
+                    'route' => ['pengajuan.index', ['filter_status' => '2']],
+                ],
+                [
+                    'text'  => 'Belum Bayar',
+                    'route' => ['pengajuan.index', ['filter_status' => '3']],
+                ],
+                [
+                    'text'  => 'Aktif',
+                    'route' => ['pengajuan.index', ['filter_status' => '4']],
+                ],
+            ],
         ],
         [
             'text'      => 'Kerja Pratek & Skripsi',
