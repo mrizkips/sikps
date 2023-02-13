@@ -332,4 +332,9 @@ class Pengajuan extends Model
             });
         });
     }
+
+    public function scopeByStatus($query, $status)
+    {
+        $query->where('status', $status);
+    }
 }
