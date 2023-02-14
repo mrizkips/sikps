@@ -68,7 +68,7 @@
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-header">
-                    <div class="row">
+                    <div class="row align-items-center">
                         <div class="col-lg">Statistik Jumlah Bimbingan</div>
                         <div class="col-lg ml-auto">
                             <form action="{{ request()->fullUrl() }}">
