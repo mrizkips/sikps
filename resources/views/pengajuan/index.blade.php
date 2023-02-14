@@ -19,7 +19,7 @@
 @php
     $configFilter = [
         'allowClear' => true,
-        'placeholder' => 'Pilih Dosen Pembimbing',
+        'placeholder' => 'Pilih Prodi',
         'data' => collect([
             ['id' => '1', 'text' => 'Sistem Informasi', 'selected' => request()->get('filter_jurusan') == 1],
             ['id' => '2', 'text' => 'Teknik Informatika', 'selected' => request()->get('filter_jurusan') == 2]
@@ -54,11 +54,6 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <span class="mr-auto">Data Pengajuan</span>
-            {{-- @can('create', App\Models\Pengajuan::class)
-            <a href="{{ route('pengajuan.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Tambah Data
-            </a>
-            @endcan --}}
         </div>
         <div class="card-body">
             <section>

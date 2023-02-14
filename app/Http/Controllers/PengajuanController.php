@@ -17,15 +17,15 @@ class PengajuanController extends Controller
         $pengajuan = Pengajuan::query();
 
         if (auth()->user()->hasRole('Prodi')) {
-            $pengajuan = Pengajuan::persetujuanProdi()->latest();
+            $pengajuan = Pengajuan::persetujuanProdi();
         }
 
         if (auth()->user()->hasRole('Keuangan')) {
-            $pengajuan = Pengajuan::persetujuanKeuangan()->latest();
+            $pengajuan = Pengajuan::persetujuanKeuangan();
         }
 
         if (auth()->user()->hasRole('Mahasiswa')) {
-            $pengajuan = Pengajuan::byMahasiswaId(auth()->user()->mahasiswa->id)->latest();
+            $pengajuan = Pengajuan::byMahasiswaId(auth()->user()->mahasiswa->id);
         }
 
         if ($jurusan = $request->get('filter_jurusan')) {
