@@ -152,18 +152,15 @@ class KpSkripsi extends Model
 
     public function scopeGroupByJadwalPendaftaranIdAndDosenId($query, $jadwalPendaftaranId = null, $dosenId = null)
     {
-        if ($jadwalPendaftaranId == null) {
-            $jadwalPendaftaranId = JadwalPendaftaran::latest()->first()->id;
-        }
-
-        $query->select('dosen.nama as dosen', 'jadwal_pendaftaran.judul', 'tahun_akademik.nama', 'jadwal_pendaftaran.semester as semester', DB::raw('count(*) as total_bimbingan'))
+        $query->select('dosen.nama as dosen', DB::raw('count(*) as total_bimbingan'))
             ->join('dosen', 'kp_skripsi.dosen_pembimbing_id', '=', 'dosen.id')
             ->join('jadwal_pendaftaran', 'kp_skripsi.jadwal_pendaftaran_id', '=', 'jadwal_pendaftaran.id')
-            ->join('tahun_akademik', 'tahun_akademik.id', '=', 'jadwal_pendaftaran.tahun_akademik_id')
-            ->where('kp_skripsi.jadwal_pendaftaran_id', $jadwalPendaftaranId)
+            ->when($jadwalPendaftaranId, function ($q, $jadwalPendaftaranId) {
+                $q->where('kp_skripsi.jadwal_pendaftaran_id', $jadwalPendaftaranId);
+            })
             ->when($dosenId, function ($q, $dosenId) {
                 $q->where('dosen_pembimbing_id', $dosenId);
             })
-            ->groupBy('dosen_pembimbing_id', 'jadwal_pendaftaran_id');
+            ->groupBy('dosen.nama');
     }
 }

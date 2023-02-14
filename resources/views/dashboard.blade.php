@@ -67,17 +67,19 @@
         @endphp
         <div class="col-lg-6">
             <div class="card">
-                <div class="card-header d-flex align-items-center">
-                    <div class="col-lg">Statistik Jumlah Bimbingan</div>
-                    <div class="col-lg ml-auto">
-                        <form action="{{ request()->fullUrl() }}">
-                            <x-adminlte-select2
-                                name="filter_jadwal_pendaftaran"
-                                :config="$configFilter" />
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-sm fa-filter"></i> Filter Data
-                            </button>
-                        </form>
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-lg">Statistik Jumlah Bimbingan</div>
+                        <div class="col-lg ml-auto">
+                            <form action="{{ request()->fullUrl() }}">
+                                <x-adminlte-select2
+                                    name="filter_jadwal_pendaftaran"
+                                    :config="$configFilter" />
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-sm fa-filter"></i> Filter Data
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body p-0">
@@ -86,7 +88,6 @@
                             <thead>
                                 <tr>
                                     <th>Dosen</th>
-                                    <th style="min-width: 200px">Periode Pengajuan</th>
                                     <th>Jumlah Bimbingan</th>
                                 </tr>
                             </thead>
@@ -94,19 +95,6 @@
                                 @foreach ($kp_skripsi as $kpSkripsi)
                                     <tr>
                                         <td>{{ $kpSkripsi->dosen }}</td>
-                                        <td>{{ $kpSkripsi->judul }}<br><small>{{ $kpSkripsi->nama }} - @switch($kpSkripsi->semester)
-                                            @case('1')
-                                                Ganjil
-                                                @break
-                                            @case(2)
-                                                Genap
-                                                @break
-                                            @case(3)
-                                                Antara
-                                                @break
-                                            @default
-
-                                        @endswitch</small></td>
                                         <td>{{ $kpSkripsi->total_bimbingan }}</td>
                                     </tr>
                                 @endforeach
