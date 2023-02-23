@@ -150,6 +150,11 @@ class KpSkripsi extends Model
         $query->where('dosen_pembimbing_id', null);
     }
 
+    public function scopeByJenis($query, $jenis)
+    {
+        $query->where('jenis', $jenis);
+    }
+
     public function scopeGroupByJadwalPendaftaranIdAndDosenId($query, $jadwalPendaftaranId = null, $dosenId = null)
     {
         $query->select('dosen.nama as dosen', DB::raw('count(*) as total_bimbingan'))

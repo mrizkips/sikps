@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\KpSkripsi;
 use App\Models\Pengajuan;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -116,6 +117,10 @@ class PengajuanPolicy
      */
     public function activate(User $user, Pengajuan $pengajuan)
     {
-        return $user->can('create pengajuan') && $pengajuan->status == 1;
+        $kpSkripsi = KpSkripsi::byMahasiswaId($user->mahasiswa->id)
+            ->byJenis($pengajuan->proposal->jenis)
+            ->count();
+
+        return $user->can('create pengajuan') && $pengajuan->status == 1 && $kpSkripsi == 0;
     }
 }

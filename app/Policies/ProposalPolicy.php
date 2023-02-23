@@ -93,9 +93,8 @@ class ProposalPolicy
             return false;
         }
 
-        $kpSkripsi = KpSkripsi::query()
-            ->where('mahasiswa_id', $user->mahasiswa->id)
-            ->where('jenis', $proposal->jenis)
+        $kpSkripsi = KpSkripsi::byMahasiswaId($user->mahasiswa->id)
+            ->byJenis($proposal->jenis)
             ->count();
 
         if ($kpSkripsi > 0) {
