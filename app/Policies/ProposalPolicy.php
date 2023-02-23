@@ -93,7 +93,7 @@ class ProposalPolicy
             return false;
         }
 
-        $kpSkripsi = KpSkripsi::byMahasiswaId($user->mahasiswa->id)
+        $kpSkripsi = KpSkripsi::byMahasiswaId($proposal->mahasiswa->id)
             ->byJenis($proposal->jenis)
             ->count();
 

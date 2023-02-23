@@ -117,7 +117,7 @@ class PengajuanPolicy
      */
     public function activate(User $user, Pengajuan $pengajuan)
     {
-        $kpSkripsi = KpSkripsi::byMahasiswaId($user->mahasiswa->id)
+        $kpSkripsi = KpSkripsi::byMahasiswaId($pengajuan->mahasiswa->id)
             ->byJenis($pengajuan->proposal->jenis)
             ->count();
 
