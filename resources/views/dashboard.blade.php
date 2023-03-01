@@ -52,7 +52,7 @@
             </div>
         </div>
         @endif
-        @if ($kp_skripsi->isNotEmpty())
+        @can('viewStats', App\Models\Pengajuan::class)
         @php
             $configFilter = [
                 'allowClear' => true,
@@ -88,14 +88,16 @@
                             <thead>
                                 <tr>
                                     <th>Dosen</th>
-                                    <th>Jumlah Bimbingan</th>
+                                    <th>KP</th>
+                                    <th>Skripsi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($kp_skripsi as $kpSkripsi)
                                     <tr>
                                         <td>{{ $kpSkripsi->dosen }}</td>
-                                        <td>{{ $kpSkripsi->total_bimbingan }}</td>
+                                        <td>{{ $kpSkripsi->total_kp ?? '0' }}</td>
+                                        <td>{{ $kpSkripsi->total_skripsi ?? '0' }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -104,7 +106,6 @@
                 </div>
             </div>
         </div>
-        @endif
         @if ($pengajuan->isNotEmpty())
         <div class="col-lg-12">
             <div class="card">
@@ -138,5 +139,6 @@
             </div>
         </div>
         @endif
+        @endcan
     </div>
 @stop

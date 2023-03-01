@@ -157,7 +157,17 @@ class KpSkripsi extends Model
 
     public function scopeGroupByJadwalPendaftaranIdAndDosenId($query, $jadwalPendaftaranId = null, $dosenId = null)
     {
-        $query->select('dosen.nama as dosen', DB::raw('count(*) as total_bimbingan'))
+        $queryJadwalPendaftaran = $jadwalPendaftaranId != null ? "AND jadwal_pendaftaran_id = $jadwalPendaftaranId" : "";
+        $query->select('dosen.nama as dosen',
+                DB::raw("(SELECT COUNT(*) AS Jumlah FROM kp_skripsi WHERE jenis = 1
+                AND dosen_pembimbing_id = dosen.id
+                $queryJadwalPendaftaran
+                GROUP BY dosen_pembimbing_id) as total_kp"),
+                DB::raw("(SELECT COUNT(*) AS Jumlah FROM kp_skripsi WHERE jenis = 2
+                AND dosen_pembimbing_id = dosen.id
+                $queryJadwalPendaftaran
+                GROUP BY dosen_pembimbing_id) as total_skripsi")
+            )
             ->join('dosen', 'kp_skripsi.dosen_pembimbing_id', '=', 'dosen.id')
             ->join('jadwal_pendaftaran', 'kp_skripsi.jadwal_pendaftaran_id', '=', 'jadwal_pendaftaran.id')
             ->when($jadwalPendaftaranId, function ($q, $jadwalPendaftaranId) {
@@ -166,6 +176,6 @@ class KpSkripsi extends Model
             ->when($dosenId, function ($q, $dosenId) {
                 $q->where('dosen_pembimbing_id', $dosenId);
             })
-            ->groupBy('dosen.nama');
+            ->groupBy('dosen.id', 'dosen.nama');
     }
 }
