@@ -25,8 +25,8 @@ class KpSkripsiFeatureTest extends TestCase
     {
         $this->seed(KpSkripsiSeederTest::class);
 
-        $admin = User::where('username', 'admin')->first();
-        $this->actingAs($admin);
+        $prodi = User::where('username', 'DN')->first();
+        $this->actingAs($prodi);
 
         $kpSkripsi = KpSkripsi::first();
 
@@ -44,8 +44,8 @@ class KpSkripsiFeatureTest extends TestCase
     {
         $this->seed(KpSkripsiSeederTest::class);
 
-        $admin = User::where('username', 'admin')->first();
-        $this->actingAs($admin);
+        $prodi = User::where('username', 'DN')->first();
+        $this->actingAs($prodi);
 
         $kpSkripsi = KpSkripsi::first();
         $dosen = Dosen::first();
@@ -56,6 +56,8 @@ class KpSkripsiFeatureTest extends TestCase
 
         $this->assertEquals($dosen->id, KpSkripsi::first()->dosen_pembimbing_id);
 
+        $admin = User::where('username', 'admin')->first();
+        $this->actingAs($admin);
         $response = $this->post(route('kp_skripsi.print_form_bimbingan', $kpSkripsi));
 
         $this->assertEquals(1, $kpSkripsi->fresh()->form_bimbingan_printed_count);

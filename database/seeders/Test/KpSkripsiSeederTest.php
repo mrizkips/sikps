@@ -26,7 +26,7 @@ class KpSkripsiSeederTest extends Seeder
             'nama' => 'Dosen',
             'username' => 'DN',
             'password' => 'DN',
-        ])->assignRole('Dosen');
+        ])->assignRole(['Dosen', 'Prodi']);
 
         $dosen->dosen()->create([
             'kd_dosen' => 'DN',

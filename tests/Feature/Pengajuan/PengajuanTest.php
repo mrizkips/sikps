@@ -57,7 +57,7 @@ class PengajuanTest extends TestCase
         ]);
 
         $this->assertNotNull(Pengajuan::all());
-        $this->assertCount(2, Persetujuan::all());
+        $this->assertCount(1, Persetujuan::all()); // Persetujuan dari prodi dulu
         $response->assertRedirect(route('pengajuan.index'));
         $response->assertSessionHas(['success' => 'Berhasil menambahkan pengajuan']);
     }

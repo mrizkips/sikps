@@ -26,14 +26,20 @@ class PengajuanPersetujuanTest extends TestCase
     {
         $this->seed(PengajuanSeederTest::class);
 
-        $user = $this->createKeuangan();
+        $user = $this->createProdi();
         $this->actingAs($user);
 
         $pengajuan = Pengajuan::first();
-
         $response = $this->post(route('pengajuan.accept', $pengajuan));
 
-        $persetujuan = $pengajuan->persetujuan->where('role_name', 'Keuangan')->first();
+        $persetujuan = $pengajuan->fresh()->persetujuan->where('role_name', 'Prodi')->first();
+        $this->assertEquals('1', $persetujuan->status);
+
+        $user = $this->createKeuangan();
+        $this->actingAs($user);
+
+        $response = $this->post(route('pengajuan.accept', $pengajuan));
+        $persetujuan = $pengajuan->fresh()->persetujuan->where('role_name', 'Keuangan')->first();
 
         $this->assertEquals('1', $persetujuan->status);
         $response->assertRedirect(route('pengajuan.index'));
@@ -52,7 +58,7 @@ class PengajuanPersetujuanTest extends TestCase
 
         $response = $this->post(route('pengajuan.accept', $pengajuan));
 
-        $persetujuan = $pengajuan->persetujuan->where('role_name', 'Prodi')->first();
+        $persetujuan = $pengajuan->fresh()->persetujuan->where('role_name', 'Prodi')->first();
 
         $this->assertEquals('1', $persetujuan->status);
         $response->assertRedirect(route('pengajuan.index'));
@@ -64,14 +70,20 @@ class PengajuanPersetujuanTest extends TestCase
     {
         $this->seed(PengajuanSeederTest::class);
 
-        $user = $this->createKeuangan();
+        $user = $this->createProdi();
         $this->actingAs($user);
 
         $pengajuan = Pengajuan::first();
+        $response = $this->post(route('pengajuan.accept', $pengajuan));
+
+        $persetujuan = $pengajuan->fresh()->persetujuan->where('role_name', 'Prodi')->first();
+        $this->assertEquals('1', $persetujuan->status);
+
+        $user = $this->createKeuangan();
+        $this->actingAs($user);
 
         $response = $this->post(route('pengajuan.reject', $pengajuan));
-
-        $persetujuan = $pengajuan->persetujuan->where('role_name', 'Keuangan')->first();
+        $persetujuan = $pengajuan->fresh()->persetujuan->where('role_name', 'Keuangan')->first();
 
         $this->assertEquals('2', $persetujuan->status);
         $this->assertEquals('3', $pengajuan->fresh()->status);
@@ -91,7 +103,7 @@ class PengajuanPersetujuanTest extends TestCase
 
         $response = $this->post(route('pengajuan.reject', $pengajuan));
 
-        $persetujuan = $pengajuan->persetujuan->where('role_name', 'Prodi')->first();
+        $persetujuan = $pengajuan->fresh()->persetujuan->where('role_name', 'Prodi')->first();
 
         $this->assertEquals('2', $persetujuan->status);
         $this->assertEquals('2', $pengajuan->fresh()->status);
@@ -104,14 +116,20 @@ class PengajuanPersetujuanTest extends TestCase
     {
         $this->seed(PengajuanSeederTest::class);
 
-        $user = $this->createKeuangan();
+        $user = $this->createProdi();
         $this->actingAs($user);
 
         $pengajuan = Pengajuan::first();
+        $this->post(route('pengajuan.accept', $pengajuan));
+
+        $persetujuan = $pengajuan->fresh()->persetujuan->where('role_name', 'Prodi')->first();
+        $this->assertEquals('1', $persetujuan->status);
+
+        $user = $this->createKeuangan();
+        $this->actingAs($user);
 
         $this->post(route('pengajuan.reject', $pengajuan));
-
-        $persetujuan = $pengajuan->persetujuan->where('role_name', 'Keuangan')->first();
+        $persetujuan = $pengajuan->fresh()->persetujuan->where('role_name', 'Keuangan')->first();
 
         $this->assertEquals('2', $persetujuan->status);
         $this->assertEquals('3', $pengajuan->fresh()->status);
@@ -119,84 +137,29 @@ class PengajuanPersetujuanTest extends TestCase
         $this->post(route('pengajuan.pay', $pengajuan->fresh()));
 
         $this->assertEquals('1', $persetujuan->fresh()->status);
-        $this->assertEquals('0', $pengajuan->fresh()->status);
-    }
-
-    /** @test */
-    public function bisa_menerima_proposal_oleh_keuangan_dan_2_oleh_prodi()
-    {
-        $this->seed(PengajuanSeederTest::class);
-
-        $keuangan = $this->createKeuangan();
-        $prodi = $this->createProdi();
-
-        $this->actingAs($keuangan);
-
-        $pengajuan = Pengajuan::first();
-
-        $this->post(route('pengajuan.accept', $pengajuan));
-        $persetujuan = $pengajuan->fresh()->persetujuan->where('role_name', 'Keuangan')->first();
-
-        $this->assertEquals('1', $persetujuan->status);
-        $this->assertEquals('0', $pengajuan->fresh()->status);
-
-        $this->actingAs($prodi);
-        $this->post(route('pengajuan.reject', $pengajuan));
-        $persetujuan = $pengajuan->fresh()->persetujuan->where('role_name', 'Prodi')->first();
-
-        $this->assertEquals('2', $persetujuan->status);
-        $this->assertEquals('2', $pengajuan->fresh()->status);
-    }
-
-    /** @test */
-    public function bisa_menolak_proposal_oleh_keuangan_tetapi_1_oleh_prodi()
-    {
-        $this->seed(PengajuanSeederTest::class);
-
-        $keuangan = $this->createKeuangan();
-        $prodi = $this->createProdi();
-        $this->actingAs($keuangan);
-
-        $pengajuan = Pengajuan::first();
-
-        $this->post(route('pengajuan.reject', $pengajuan));
-        $persetujuan = $pengajuan->fresh()->persetujuan->where('role_name', 'Keuangan')->first();
-
-        $this->assertEquals('2', $persetujuan->status);
-        $this->assertEquals('3', $pengajuan->fresh()->status);
-
-        $this->actingAs($prodi);
-        $this->post(route('pengajuan.accept', $pengajuan->fresh()));
-        $persetujuan = $pengajuan->fresh()->persetujuan->where('role_name', 'Prodi')->first();
-
-        $this->assertEquals('1', $persetujuan->status);
-        $this->assertEquals('3', $pengajuan->fresh()->status);
-    }
-
-    /** @test */
-    public function bisa_menerima_proposal_pengajuan_dan_aktivasi_pengajuan_proposal()
-    {
-        $this->seed(PengajuanSeederTest::class);
-
-        $keuangan = $this->createKeuangan();
-        $prodi = $this->createProdi();
-
-        $this->actingAs($keuangan);
-
-        $pengajuan = Pengajuan::first();
-
-        $this->post(route('pengajuan.accept', $pengajuan));
-        $persetujuan = $pengajuan->fresh()->persetujuan->where('role_name', 'Keuangan')->first();
-
-        $this->assertEquals('1', $persetujuan->status);
-        $this->assertEquals('0', $pengajuan->fresh()->status);
-
-        $this->actingAs($prodi);
-        $this->post(route('pengajuan.accept', $pengajuan->fresh()));
-        $persetujuan = $pengajuan->fresh()->persetujuan->where('role_name', 'Prodi')->first();
-
-        $this->assertEquals('1', $persetujuan->status);
         $this->assertEquals('1', $pengajuan->fresh()->status);
+    }
+
+    /** @test */
+    public function bisa_menolak_proposal_oleh_keuangan_tetapi_disetujui_oleh_prodi()
+    {
+        $this->seed(PengajuanSeederTest::class);
+
+        $keuangan = $this->createKeuangan();
+        $prodi = $this->createProdi();
+        $pengajuan = Pengajuan::first();
+
+        $this->actingAs($prodi);
+        $this->post(route('pengajuan.accept', $pengajuan->fresh()));
+        $persetujuan = $pengajuan->fresh()->persetujuan->where('role_name', 'Prodi')->first();
+        $this->assertEquals('1', $persetujuan->status);
+
+        $this->actingAs($keuangan);
+        $this->post(route('pengajuan.reject', $pengajuan));
+        $persetujuan = $pengajuan->fresh()->persetujuan->where('role_name', 'Keuangan')->first();
+        $this->assertEquals('2', $persetujuan->status);
+
+        $this->assertEquals('3', $pengajuan->fresh()->status);
     }
 
     /** @test */
@@ -206,13 +169,13 @@ class PengajuanPersetujuanTest extends TestCase
 
         $keuangan = $this->createKeuangan();
         $prodi = $this->createProdi();
-
-        $this->actingAs($keuangan);
         $pengajuan = Pengajuan::first();
-        $this->post(route('pengajuan.accept', $pengajuan));
 
         $this->actingAs($prodi);
         $this->post(route('pengajuan.accept', $pengajuan->fresh()));
+
+        $this->actingAs($keuangan);
+        $this->post(route('pengajuan.accept', $pengajuan));
         $this->assertEquals('1', $pengajuan->fresh()->status);
 
         $mahasiswa = Mahasiswa::first();

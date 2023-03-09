@@ -163,9 +163,9 @@ class Pengajuan extends Model
 
         if (auth()->user()->hasRole('Prodi')) {
             $persetujuan = $this->persetujuan()->roleProdi()->first();
-            $persetujuan->accept($catatan);
-
             Persetujuan::create(['pengajuan_id' => $this->id, 'role_name' => 'Keuangan']);
+
+            return $persetujuan->accept($catatan);
         }
 
         if ($this->persetujuan()->statusAccepted()->count() == 2) {
