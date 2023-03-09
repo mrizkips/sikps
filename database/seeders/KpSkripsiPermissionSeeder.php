@@ -25,24 +25,28 @@ class KpSkripsiPermissionSeeder extends Seeder
 
         $viewKpSkripsiPermission = Permission::findOrCreate('view kp skripsi');
         $viewAnyKpSkripsiPermission = Permission::findOrCreate('view any kp skripsi');
+        $updateKpSkripsiPermission = Permission::findOrCreate('update kp skripsi');
         $assignDosenKpSkripsiPermission = Permission::findOrCreate('assign dosen kp skripsi');
         $printFormBimbinganKpSkripsiPermission = Permission::findOrCreate('print form bimbingan kp skripsi');
 
         $admin->givePermissionTo([
             $viewKpSkripsiPermission,
             $viewAnyKpSkripsiPermission,
+            $updateKpSkripsiPermission,
             $printFormBimbinganKpSkripsiPermission
         ]);
 
         $staff->givePermissionTo([
             $viewKpSkripsiPermission,
             $viewAnyKpSkripsiPermission,
+            $updateKpSkripsiPermission,
             $printFormBimbinganKpSkripsiPermission
         ]);
 
         $prodi->givePermissionTo([
             $viewKpSkripsiPermission,
             $viewAnyKpSkripsiPermission,
+            $updateKpSkripsiPermission,
             $assignDosenKpSkripsiPermission
         ]);
 

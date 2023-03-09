@@ -1,34 +1,57 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Kerja Praktek & Skripsi')
+@section('title', 'Ubah Judul Proposal')
 
 @section('content_header')
     <div class="row">
         <div class="col-sm-6">
-            <h1>Detail Kerja Praktek & Skripsi</h1>
+            <h1>Ubah Judul Proposal</h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('kp_skripsi.index') }}">Kerja Praktek & Skripsi</a></li>
-                <li class="breadcrumb-item active">Detail</li>
+                <li class="breadcrumb-item"><a href="{{ route('kp_skripsi.index') }}">KP & Skripsi</a></li>
+                <li class="breadcrumb-item active">Ubah Judul</li>
             </ol>
         </div>
     </div>
 @stop
 
 @section('content')
-    <p>Melihat data kerja praktek & skripsi</p>
+    <p>Mengubah judul proposal</p>
 
     <div class="row">
-        <div class="col-lg-7">
+        <div class="col-lg-8">
             <div class="card">
-                <div class="card-header">Data Proposal</div>
-                <div class="card-body p-0">
-                    @include('proposal.partials.readonly', ['proposal' => $kp_skripsi->proposal])
+                <div class="card-header">Form Judul Proposal</div>
+                <div class="card-body">
+                    <form action="{{ route('kp_skripsi.update_judul', $kp_skripsi) }}" method="post">
+                        @csrf
+                        @method('put')
+
+                        <x-adminlte-input
+                            type="text"
+                            label="Judul Lama"
+                            name="judul_lama"
+                            value="{!! $kp_skripsi->proposal->judul !!}"
+                            readonly />
+
+                        <x-adminlte-input
+                            type="text"
+                            label="Judul Baru*"
+                            name="judul"
+                            value="{!! old('judul') !!}"
+                            />
+
+                        <div class="d-flex justify-content-end">
+                            <x-adminlte-button type="submit" label="Simpan" theme="warning" icon="fas fa-save"/>
+                        </div>
+                    </form>
                 </div>
             </div>
-            @if ($logs->isNotEmpty())
+        </div>
+        @if ($logs->isNotEmpty())
+        <div class="col-lg-8">
             <div class="card">
                 <div class="card-header">Log Perubahan Judul</div>
                 <div class="card-body p-0">
@@ -56,22 +79,8 @@
                     </div>
                 </div>
             </div>
-            @endif
         </div>
-        <div class="col-lg-5">
-            <div class="card">
-                <div class="card-header">Data Pengajuan</div>
-                <div class="card-body p-0">
-                    @include('pengajuan.partials.readonly', ['pengajuan' => $kp_skripsi->pengajuan])
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">Data Persetujuan</div>
-                <div class="card-body p-0">
-                    @include('pengajuan.persetujuan.partials.readonly', ['persetujuan' => $kp_skripsi->pengajuan->persetujuan])
-                </div>
-            </div>
-        </div>
+        @endif
     </div>
 
     <a href="{{ route('kp_skripsi.index') }}" class="btn btn-secondary my-2">

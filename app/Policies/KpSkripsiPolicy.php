@@ -38,6 +38,18 @@ class KpSkripsiPolicy
     }
 
     /**
+     * Determine whether the user can update the model.
+     *
+     * @param  \App\Models\User      $user
+     * @param  \App\Models\KpSkripsi $kpSkripsi
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function update(User $user, KpSkripsi $kpSkripsi)
+    {
+        return $user->can('update kp skripsi');
+    }
+
+    /**
      * Determine whether the user can assign dosen
      *
      * @param User $user

@@ -178,4 +178,29 @@ class KpSkripsi extends Model
             })
             ->groupBy('dosen.id', 'dosen.nama');
     }
+
+    public function updateJudul($data, $user_id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $proposal = $this->proposal;
+
+            LogPerubahanJudul::create([
+                'kp_skripsi_id' => $this->id,
+                'judul_lama' => $proposal->judul,
+                'judul_baru' => $data['judul'],
+                'user_id' => $user_id,
+            ]);
+
+            $this->proposal()->update($data);
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return false;
+        }
+
+        return true;
+    }
 }

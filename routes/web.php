@@ -53,7 +53,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/pengajuan/{pengajuan}/activate', [PengajuanController::class, 'activate'])->name('pengajuan.activate');
     Route::resource('pengajuan', PengajuanController::class)->except('update', 'edit', 'create');
 
-    Route::post('kp_skripsi/{kp_skripsi}/assignDosen', [KpSkripsiController::class, 'assignDosen'])->name('kp_skripsi.assign_dosen');
-    Route::post('kp_skripsi/{kp_skripsi}/printFormBimbingan', [KpSkripsiController::class, 'printFormBimbingan'])->name('kp_skripsi.print_form_bimbingan');
+    Route::post('/kp_skripsi/{kp_skripsi}/assignDosen', [KpSkripsiController::class, 'assignDosen'])->name('kp_skripsi.assign_dosen');
+    Route::post('/kp_skripsi/{kp_skripsi}/printFormBimbingan', [KpSkripsiController::class, 'printFormBimbingan'])->name('kp_skripsi.print_form_bimbingan');
+    Route::get('/kp_skripsi/{kp_skripsi}/editJudul', [KpSkripsiController::class, 'editJudul'])->name('kp_skripsi.edit_judul');
+    Route::put('/kp_skripsi/{kp_skripsi}/updateJudul', [KpSkripsiController::class, 'updateJudul'])->name('kp_skripsi.update_judul');
     Route::resource('kp_skripsi', KpSkripsiController::class)->only('index', 'show');
 });

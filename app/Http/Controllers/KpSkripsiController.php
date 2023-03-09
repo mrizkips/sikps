@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EditJudulProposalRequest;
 use App\Models\Dosen;
 use App\Models\KpSkripsi;
+use App\Models\LogPerubahanJudul;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
@@ -41,7 +44,33 @@ class KpSkripsiController extends Controller
 
     public function show(KpSkripsi $kpSkripsi)
     {
-        return view('kp_skripsi.show', ['kp_skripsi' => $kpSkripsi]);
+        $logs = LogPerubahanJudul::findByKpSkripsiId($kpSkripsi->id)->limit(5)->get();
+
+        return view('kp_skripsi.show', [
+            'kp_skripsi' => $kpSkripsi,
+            'logs' => $logs,
+        ]);
+    }
+
+    public function editJudul(KpSkripsi $kpSkripsi)
+    {
+        $logs = LogPerubahanJudul::findByKpSkripsiId($kpSkripsi->id)->limit(5)->get();
+
+        return view('kp_skripsi.editJudul', [
+            'kp_skripsi' => $kpSkripsi,
+            'logs' => $logs,
+        ]);
+    }
+
+    public function updateJudul(EditJudulProposalRequest $request, KpSkripsi $kpSkripsi)
+    {
+        $data = $request->validated();
+
+        $kpSkripsi->updateJudul($data, auth()->user()->id);
+
+        return redirect()->route('kp_skripsi.edit_judul', $kpSkripsi)->with([
+            'success' => 'Berhasil mengubah judul proposal'
+        ]);
     }
 
     public function assignDosen(Request $request, KpSkripsi $kpSkripsi)

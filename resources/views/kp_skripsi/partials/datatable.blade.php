@@ -29,6 +29,7 @@ $config = [
     ],
     'data' => $kp_skripsi->map(function ($value, $i) use ($dosen) {
         $canView = auth()->user()->can('view', $value);
+        $canUpdate = auth()->user()->can('update', $value);
         $canAssign = auth()->user()->can('assignDosen', $value);
         $canPrint = auth()->user()->can('printFormBimbingan', $value);
 
@@ -45,7 +46,8 @@ $config = [
                 str($canView ? '<nobr>' . view('partials.buttons.download', ['route' => route('proposal.download', $value->proposal)]) . '</nobr>' : '') .
                 str($canAssign ? '<nobr>' . view('partials.buttons.assignDosen', ['route' => route('kp_skripsi.assign_dosen', $value), 'id' => $value->id]) . '</nobr>' : '') .
                 str($canPrint ? '<nobr>' . view('partials.buttons.printFormBimbingan', ['route' => route('kp_skripsi.print_form_bimbingan', $value)]) . '</nobr>' : '') .
-                str($canView ? '<nobr>' . view('partials.buttons.show', ['route' => route('kp_skripsi.show', $value)]) . '</nobr>' : '')
+                str($canView ? '<nobr>' . view('partials.buttons.show', ['route' => route('kp_skripsi.show', $value)]) . '</nobr>' : '') .
+                str($canUpdate ? '<nobr>' . view('partials.buttons.edit', ['route' => route('kp_skripsi.edit_judul', $value), 'title' => 'Ubah Judul']) . '</nobr>' : '')
         ];
     }),
     'order' => [[0, 'asc']],

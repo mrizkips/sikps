@@ -24,7 +24,7 @@ class UserRoleSeeder extends Seeder
         Role::firstOrCreate(['name' => 'Mahasiswa']);
         Role::firstOrCreate(['name' => 'Dosen']);
 
-        DB::table('users')->insert([
+        DB::table('users')->insertOrIgnore([
             'nama' => 'Admin',
             'username' => 'admin',
             'password' => '$2a$12$R1dvootxVSdpNxEOp.qO0.m7.o.ouPHIQFEfm3BGcFxUSNzgnDzBu',
