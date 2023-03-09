@@ -36,8 +36,6 @@
                     @include('pengajuan.partials.readonly')
                 </div>
             </div>
-        </div>
-        <div class="col-lg-7">
             <div class="card">
                 <div class="card-header">Data Persetujuan</div>
                 <div class="card-body p-0">
