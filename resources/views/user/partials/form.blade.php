@@ -112,7 +112,7 @@
 
     <x-adminlte-input
         type="text"
-        label="Inisial"
+        label="Inisial*"
         name="inisial"
         value="{{ old('inisial', $user->dosen->inisial ?? '') }}"
         />
