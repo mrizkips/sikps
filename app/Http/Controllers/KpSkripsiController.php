@@ -37,7 +37,7 @@ class KpSkripsiController extends Controller
         }
 
         return view('kp_skripsi.index', [
-            'kp_skripsi' => $kpSkripsi->get(),
+            'kp_skripsi' => $kpSkripsi->byStatusNotLulus()->get(),
             'dosen' => Dosen::all(),
         ]);
     }

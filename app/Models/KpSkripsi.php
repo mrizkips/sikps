@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -153,6 +154,13 @@ class KpSkripsi extends Model
     public function scopeByJenis($query, $jenis)
     {
         $query->where('jenis', $jenis);
+    }
+
+    public function scopeByStatusNotLulus($query)
+    {
+        $query->whereHas('pengajuan', function(Builder $query) {
+            $query->where('status', '!=', '5');
+        });
     }
 
     public function scopeGroupByJadwalPendaftaranIdAndDosenId($query, $jadwalPendaftaranId = null, $dosenId = null)
