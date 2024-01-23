@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('pengajuan', function (Blueprint $table) {
             $table->id();
-            $table->enum('status', [0, 1, 2, 3, 4])->comment('0 => Menunggu, 1 => Diterima, 2 => Ditolak, 3 => Belum bayar, 4 => Aktif')->default(0);
+            $table->enum('status', [0, 1, 2, 3, 4, 5])->comment('0 => Menunggu, 1 => Diterima, 2 => Ditolak, 3 => Belum bayar, 4 => Aktif, 5 => Lulus')->default(0);
             $table->enum('jenis', [1, 2, 3])->comment('1 => Proposal, 2 => Pra-sidang, 3 => Sidang');
             $table->timestamps();
             $table->foreignId('mahasiswa_id')->constrained('mahasiswa');

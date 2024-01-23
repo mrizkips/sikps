@@ -46,6 +46,10 @@ class KpSkripsiPolicy
      */
     public function update(User $user, KpSkripsi $kpSkripsi)
     {
+        if ($kpSkripsi->pengajuan->status == '5') {
+            return false;
+        }
+
         return $user->can('update kp skripsi');
     }
 
@@ -58,6 +62,10 @@ class KpSkripsiPolicy
      */
     public function assignDosen(User $user, KpSkripsi $kpSkripsi)
     {
+        if ($kpSkripsi->pengajuan->status == '5') {
+            return false;
+        }
+
         return $user->can('assign dosen kp skripsi');
     }
 
@@ -78,6 +86,34 @@ class KpSkripsiPolicy
             return false;
         }
 
+        if ($kpSkripsi->pengajuan->status == '5') {
+            return false;
+        }
+
         return $user->can('print form bimbingan kp skripsi');
+    }
+
+    /**
+     * Determine whether the user can graduate the students
+     *
+     * @param   User $user
+     * @param   KpSkripsi $kpSkripsi
+     * @return  bool
+     */
+    public function graduate(User $user, KpSkripsi $kpSkripsi)
+    {
+        if (!$kpSkripsi->hasDosenPembimbing()) {
+            return false;
+        }
+
+        if ($user->hasRole('Mahasiswa')) {
+            return false;
+        }
+
+        if ($kpSkripsi->pengajuan->status == '5') {
+            return false;
+        }
+
+        return $user->can('graduate kp skripsi');
     }
 }

@@ -203,4 +203,12 @@ class KpSkripsi extends Model
 
         return true;
     }
+
+    public function graduate()
+    {
+        $pengajuan = $this->pengajuan;
+        return $pengajuan->update([
+            'status' => '5'
+        ]);
+    }
 }

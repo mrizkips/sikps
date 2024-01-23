@@ -357,6 +357,10 @@ return [
                     'text'  => 'Aktif',
                     'route' => ['pengajuan.index', ['filter_status' => '4']],
                 ],
+                [
+                    'text'  => 'Lulus',
+                    'route' => ['pengajuan.index', ['filter_status' => '5']],
+                ],
             ],
         ],
         [

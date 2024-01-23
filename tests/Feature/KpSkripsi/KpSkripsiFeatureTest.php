@@ -63,4 +63,28 @@ class KpSkripsiFeatureTest extends TestCase
         $this->assertEquals(1, $kpSkripsi->fresh()->form_bimbingan_printed_count);
         $response->assertHeader('content-type', 'application/pdf');
     }
+
+    /** @test */
+    public function bisa_mengganti_status_lulus()
+    {
+        $this->seed(KpSkripsiSeederTest::class);
+
+        $prodi = User::where('username', 'DN')->first();
+        $this->actingAs($prodi);
+
+        $kpSkripsi = KpSkripsi::first();
+        $dosen = Dosen::first();
+
+        $this->post(route('kp_skripsi.assign_dosen', $kpSkripsi), [
+            'dosen_pembimbing_id' => $dosen->id,
+        ]);
+
+        $this->assertEquals($dosen->id, KpSkripsi::first()->dosen_pembimbing_id);
+
+        $admin = User::where('username', 'admin')->first();
+        $this->actingAs($admin);
+
+        $this->post(route('kp_skripsi.graduate', $kpSkripsi));
+        $this->assertEquals('5', $kpSkripsi->fresh()->pengajuan->status);
+    }
 }

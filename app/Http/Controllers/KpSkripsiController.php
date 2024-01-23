@@ -103,4 +103,15 @@ class KpSkripsiController extends Controller
         $file = 'Form_bimbingan_' . $kpSkripsi->mahasiswa->nim;
         return $pdf->stream($file . '.pdf');
     }
+
+    public function graduate(KpSkripsi $kpSkripsi)
+    {
+        $this->authorize('graduate', $kpSkripsi);
+
+        $kpSkripsi->graduate();
+
+        return redirect()->route('kp_skripsi.index')->with([
+            'success' => 'Berhasil mengubah status'
+        ]);
+    }
 }

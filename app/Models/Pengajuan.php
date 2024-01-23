@@ -51,6 +51,9 @@ class Pengajuan extends Model
         else if ($this->status == 4) {
             return 'Aktif';
         }
+        else if ($this->status == 5) {
+            return 'Lulus';
+        }
         else {
             return null;
         }

@@ -10,6 +10,8 @@
         $color = 'warning';
     } else if ($pengajuan->status == '4') {
         $color = 'primary';
+    } else if ($pengajuan->status == '5') {
+        $color = 'success';
     }
 
 @endphp

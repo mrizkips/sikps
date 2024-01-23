@@ -57,5 +57,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/kp_skripsi/{kp_skripsi}/printFormBimbingan', [KpSkripsiController::class, 'printFormBimbingan'])->name('kp_skripsi.print_form_bimbingan');
     Route::get('/kp_skripsi/{kp_skripsi}/editJudul', [KpSkripsiController::class, 'editJudul'])->name('kp_skripsi.edit_judul');
     Route::put('/kp_skripsi/{kp_skripsi}/updateJudul', [KpSkripsiController::class, 'updateJudul'])->name('kp_skripsi.update_judul');
+    Route::post('/kp_skripsi/{kp_skripsi}/graduate', [KpSkripsiController::class, 'graduate'])->name('kp_skripsi.graduate');
     Route::resource('kp_skripsi', KpSkripsiController::class)->only('index', 'show');
 });
