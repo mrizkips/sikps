@@ -37,7 +37,7 @@ class Pengajuan extends Model
     public function getStatus()
     {
         if ($this->status == 0) {
-            $this->waitingStatus();
+            return $this->waitingStatus();
         }
         else if ($this->status == 1) {
             return 'Diterima';
@@ -65,7 +65,7 @@ class Pengajuan extends Model
             $builder->where('role_name', 'Prodi');
         })->first()) {
             $status = $pengajuan->persetujuan->firstWhere('role_name', 'Prodi')->status;
-            if ($status == 0) {
+            if ($status == "0") {
                 return 'Menunggu Prodi';
             }
         }
@@ -74,7 +74,7 @@ class Pengajuan extends Model
             $builder->where('role_name', 'Keuangan');
         })->first()) {
             $status = $pengajuan->persetujuan->firstWhere('role_name', 'Keuangan')->status;
-            if ($status == 0) {
+            if ($status == "0") {
                 return 'Menunggu Keuangan';
             }
         }
