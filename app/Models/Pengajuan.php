@@ -61,25 +61,23 @@ class Pengajuan extends Model
 
     public function waitingStatus()
     {
-        if ($pengajuan = $this->whereHas('persetujuan', function (Builder $builder) {
+        if ($this->whereHas('persetujuan', function (Builder $builder) {
             $builder->where('role_name', 'Prodi');
         })->first()) {
-            $status = $pengajuan->persetujuan->firstWhere('role_name', 'Prodi')->status;
+            $status = $this->persetujuan->firstWhere('role_name', 'Prodi')->status;
             if ($status == "0") {
                 return 'Menunggu Prodi';
             }
         }
 
-        if ($pengajuan = $this->whereHas('persetujuan', function (Builder $builder) {
+        if ($this->whereHas('persetujuan', function (Builder $builder) {
             $builder->where('role_name', 'Keuangan');
         })->first()) {
-            $status = $pengajuan->persetujuan->firstWhere('role_name', 'Keuangan')->status;
+            $status = $this->persetujuan->firstWhere('role_name', 'Keuangan')->status;
             if ($status == "0") {
                 return 'Menunggu Keuangan';
             }
         }
-
-        return null;
     }
 
     public function getJenis()
