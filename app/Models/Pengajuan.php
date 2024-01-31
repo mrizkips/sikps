@@ -37,7 +37,7 @@ class Pengajuan extends Model
     public function getStatus()
     {
         if ($this->status == 0) {
-            return 'Menunggu';
+            $this->waitingStatus();
         }
         else if ($this->status == 1) {
             return 'Diterima';
@@ -57,6 +57,29 @@ class Pengajuan extends Model
         else {
             return null;
         }
+    }
+
+    public function waitingStatus()
+    {
+        if ($pengajuan = $this->whereHas('persetujuan', function (Builder $builder) {
+            $builder->where('role_name', 'Prodi');
+        })->first()) {
+            $status = $pengajuan->persetujuan->firstWhere('role_name', 'Prodi')->status;
+            if ($status == 0) {
+                return 'Menunggu Prodi';
+            }
+        }
+
+        if ($pengajuan = $this->whereHas('persetujuan', function (Builder $builder) {
+            $builder->where('role_name', 'Keuangan');
+        })->first()) {
+            $status = $pengajuan->persetujuan->firstWhere('role_name', 'Keuangan')->status;
+            if ($status == 0) {
+                return 'Menunggu Keuangan';
+            }
+        }
+
+        return null;
     }
 
     public function getJenis()
