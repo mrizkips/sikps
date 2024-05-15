@@ -10,11 +10,17 @@ class KpSkripsiController extends Controller
 {
     public function index()
     {
-        $kpSkripsi = KpSkripsi::all();
+        $listKpSkripsi = KpSkripsi::all();
         return response()->json([
             'message' => 'List data proposal KP & Skripsi Aktif',
             'status' =>  200,
-            'data' => $kpSkripsi
+            'data' => $listKpSkripsi->map(function ($kpSkripsi) {
+                $proposal = $kpSkripsi->proposal;
+                return [
+                    'judul' => $proposal->judul,
+                    'file_proposal' => $proposal->file_proposal,
+                ];
+            })
         ]);
     }
 }
