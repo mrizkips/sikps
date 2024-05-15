@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AkademikController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JadwalPendaftaranController;
 use App\Http\Controllers\KpSkripsiController;
@@ -10,6 +9,7 @@ use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\TahunAkademikController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\KpSkripsiController as APIKpSkripsiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,3 +60,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/kp_skripsi/{kp_skripsi}/graduate', [KpSkripsiController::class, 'graduate'])->name('kp_skripsi.graduate');
     Route::resource('kp_skripsi', KpSkripsiController::class)->only('index', 'show');
 });
+
+Route::get('/api/kp_skripsi', [APIKpSkripsiController::class, 'index'])->name('api.kp_skripsi.index');
