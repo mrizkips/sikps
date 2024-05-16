@@ -62,3 +62,4 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/api/kp_skripsi', [APIKpSkripsiController::class, 'index'])->name('api.kp_skripsi.index');
+Route::get('/proposal/{proposal}/stream', [ProposalController::class, 'stream'])->name('proposal.stream');

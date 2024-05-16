@@ -18,7 +18,7 @@ class KpSkripsiController extends Controller
                 $proposal = $kpSkripsi->proposal;
                 return [
                     'judul' => $proposal->judul,
-                    'file_proposal' => $proposal->file_proposal,
+                    'file_proposal' => route('proposal.stream', $proposal->id),
                 ];
             })
         ]);

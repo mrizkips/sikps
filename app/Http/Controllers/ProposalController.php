@@ -126,6 +126,20 @@ class ProposalController extends Controller
         return Storage::download($proposal->file_proposal, $proposal->mahasiswa->nim . ' Proposal.pdf');
     }
 
+    /**
+     * Handling download proposal request
+     *
+     * @param Proposal $proposal
+     * @return mixed
+     */
+    public function stream(Proposal $proposal)
+    {
+        return Storage::download($proposal->file_proposal, $proposal->mahasiswa->nim . ' Proposal.pdf', [
+            'Content-Type:' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . $proposal->mahasiswa->nim . '"Proposal.pdf',
+        ]);
+    }
+
     public function send(Proposal $proposal)
     {
         return view('proposal.send', [
