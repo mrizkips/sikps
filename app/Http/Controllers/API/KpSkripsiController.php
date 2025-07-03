@@ -19,6 +19,8 @@ class KpSkripsiController extends Controller
                 return [
                     'judul' => $proposal->judul,
                     'file_proposal' => route('proposal.stream', $proposal->id),
+                    'jenis' => $kpSkripsi->jenis,
+                    'nama_jenis' => $kpSkripsi->getJenis(),
                 ];
             })
         ]);
